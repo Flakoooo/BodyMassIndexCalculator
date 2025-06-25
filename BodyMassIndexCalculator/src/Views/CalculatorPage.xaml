@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BodyMassIndexCalculator.src.ViewModels"
+             x:Class="BodyMassIndexCalculator.src.Views.CalculatorPage"
+             x:DataType="vm:CalculatorViewModel"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="25">
+            <StackLayout HorizontalOptions="Center" Spacing="10">
+                <Label Text="Калькулятор калорий" 
+                       FontSize="24" 
+                       FontAttributes="Bold" 
+                       TextColor="{DynamicResource PrimaryColor}"
+                       HorizontalOptions="Center"/>
+            </StackLayout>
+            <Border Style="{StaticResource CardStyle}">
+                <StackLayout Spacing="20" Padding="15">
+                    <StackLayout Spacing="15">
+                        <Label Text="Персональные данные" Style="{StaticResource SectionHeaderStyle}"/>
+                        <StackLayout>
+                            <Label Text="Рост (см)" Style="{StaticResource InputLabelStyle}"/>
+                            <Entry Placeholder="175" 
+                                   Keyboard="Numeric"
+                                   Text="{Binding Height}"
+                                   Style="{StaticResource EntryStyle}"/>
+                        </StackLayout>
+                        <StackLayout>
+                            <Label Text="Вес (кг)" Style="{StaticResource InputLabelStyle}"/>
+                            <Entry Placeholder="70" 
+                                   Keyboard="Numeric"
+                                   Text="{Binding Weight}"
+                                   Style="{StaticResource EntryStyle}"/>
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+            </Border>
+            <Button Text="РАССЧИТАТЬ" 
+                    Command="{Binding CalculateCommand}"
+                    Style="{StaticResource PrimaryButtonStyle}"/>
+            <Border IsVisible="{Binding IsResultVisible}" Style="{StaticResource ResultCardStyle}">
+                <StackLayout Spacing="8" Padding="15">
+                    <Label Text="Ваш индекс массы тела:" Style="{StaticResource ResultHeaderStyle}"/>
+                    <Label Text="{Binding Result}" Style="{StaticResource ResultValueStyle}"/>
+                    <Label Text="{Binding Recommendation}" Style="{StaticResource ResultDescriptionStyle}"/>
+                </StackLayout>
+            </Border>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

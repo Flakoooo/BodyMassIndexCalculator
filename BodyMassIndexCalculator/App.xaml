@@ -1,0 +1,115 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BodyMassIndexCalculator.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="PrimaryColor">#4CAF50</Color>
+            <Color x:Key="PageBackgroundColor">#F5F5F5</Color>
+            <Color x:Key="InterfaceColor">#FFFFFF</Color>
+            <Color x:Key="PrimaryTextColor">#212121</Color>
+            <Color x:Key="ErrorTextColor">#FF5252</Color>
+            <Color x:Key="SecondaryTextColor">#757575</Color>
+
+            <Style x:Key="CenteredTabStyle" TargetType="Tab">
+                <Setter Property="Shell.TabBarTitleColor" Value="{DynamicResource PrimaryTextColor}"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="{DynamicResource SecondaryTextColor}"/>
+                <Setter Property="Shell.TabBarForegroundColor" Value="{DynamicResource InterfaceColor}"/>
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{DynamicResource InterfaceColor}"/>
+                <Setter Property="Shell.TitleView">
+                    <Setter.Value>
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="{Binding Title}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </StackLayout>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}"/>
+                <Setter Property="TextColor" Value="{DynamicResource InterfaceColor}"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="HeightRequest" Value="50"/>
+            </Style>
+
+            <Style x:Key="ErrorLabelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{DynamicResource ErrorTextColor}"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Margin" Value="0,10"/>
+            </Style>
+
+            <Style x:Key="CardStyle" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="{DynamicResource InterfaceColor}"/>
+                <Setter Property="StrokeThickness" Value="0"/>
+                <Setter Property="Padding" Value="15"/>
+                <Setter Property="StrokeShape" Value="RoundRectangle 12"/>
+                <Setter Property="Shadow">
+                    <Shadow Brush="#40000000" Offset="0,2" Radius="8" Opacity="0.1"/>
+                </Setter>
+            </Style>
+
+            <Style x:Key="SectionHeaderStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
+            </Style>
+
+            <Style x:Key="InputLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
+            </Style>
+
+            <Style x:Key="EntryStyle" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+                <Setter Property="PlaceholderColor" Value="{DynamicResource SecondaryTextColor}"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+
+            <Style x:Key="ResultCardStyle" TargetType="Border" BasedOn="{StaticResource CardStyle}">
+                <Setter Property="HorizontalOptions" Value="Fill"/>
+                <Setter Property="BackgroundColor" Value="#E8F5E9"/>
+                <!-- Светло-зеленый фон -->
+            </Style>
+
+            <Style x:Key="ResultHeaderStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
+            </Style>
+
+            <Style x:Key="ResultValueStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="28"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="ResultDescriptionStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="SecondaryLabelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="IndicatorLabelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+
+            <Style x:Key="ValueLabelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

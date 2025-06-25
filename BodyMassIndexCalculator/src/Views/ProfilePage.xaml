@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BodyMassIndexCalculator.src.ViewModels"
+             xmlns:model="clr-namespace:BodyMassIndexCalculator.src.Models"
+             x:Class="BodyMassIndexCalculator.src.Views.ProfilePage"
+             x:DataType="vm:ProfileViewModel"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="25">
+            <Border Style="{StaticResource CardStyle}" Padding="20" HorizontalOptions="Fill">
+                <StackLayout Spacing="15" HorizontalOptions="Center">
+                    <Border StrokeShape="RoundRectangle 50" 
+                            WidthRequest="100" 
+                            HeightRequest="100" 
+                            HorizontalOptions="Center"
+                            Stroke="{DynamicResource PrimaryColor}"
+                            StrokeThickness="2">
+                        <Image Source="dotnet_bot.png" Aspect="AspectFill" />
+                    </Border>
+                    <StackLayout Spacing="5" HorizontalOptions="Center">
+                        <Label Text="{Binding Name}" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="{DynamicResource SecondaryTextColor}"/>
+                        <Label Text="{Binding Email}" Style="{StaticResource SecondaryLabelStyle}"/>
+                    </StackLayout>
+                </StackLayout>
+            </Border>
+            <Border Style="{StaticResource CardStyle}">
+                <StackLayout Spacing="15">
+                    <Label Text="Активность" Style="{StaticResource SectionHeaderStyle}"/>
+                </StackLayout>
+            </Border>
+            <CollectionView ItemsSource="{Binding BodyMassIndexCalculations}" ItemSizingStrategy="MeasureAllItems">           
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <Label Text="Нет данных о расчетах" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:BodyMassIndexCalculation">
+                        <Border Style="{StaticResource CardStyle}">
+                            <StackLayout Spacing="10">
+                                <StackLayout>
+                                    <Label Text="Время расчёта" Style="{StaticResource IndicatorLabelStyle}"/>
+                                    <Label Text="{Binding CreatedAt}" Style="{StaticResource ValueLabelStyle}"/>
+                                </StackLayout>
+                                <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto">
+                                    <StackLayout Grid.Column="0">
+                                        <Label Text="Рост" Style="{StaticResource IndicatorLabelStyle}"/>
+                                        <Label Text="{Binding Height}" Style="{StaticResource ValueLabelStyle}"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="1">
+                                        <Label Text="Вес" Style="{StaticResource IndicatorLabelStyle}"/>
+                                        <Label Text="{Binding Weight}" Style="{StaticResource ValueLabelStyle}"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Column="2">
+                                        <Label Text="Индекс массы тела" Style="{StaticResource IndicatorLabelStyle}"/>
+                                        <Label Text="{Binding BodyMassIndex}" Style="{StaticResource ValueLabelStyle}"/>
+                                    </StackLayout>
+                                </Grid>
+                                <StackLayout>
+                                    <Label Text="Рекомендация" Style="{StaticResource IndicatorLabelStyle}"/>
+                                    <Label Text="{Binding Recommendation}" Style="{StaticResource ValueLabelStyle}"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

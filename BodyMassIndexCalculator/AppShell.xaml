@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="BodyMassIndexCalculator.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:BodyMassIndexCalculator.src.Views"
+    FlyoutBehavior="Disabled">
+    <ShellContent x:Name="LoginPage" Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
+    <TabBar x:Name="MainTabs" Route="MainTabs">
+        <Tab Title="Калькулятор" Style="{StaticResource CenteredTabStyle}">
+            <ShellContent Route="CalculatorPage" ContentTemplate="{DataTemplate local:CalculatorPage}" />
+        </Tab>
+        <Tab Title="Профиль" Style="{StaticResource CenteredTabStyle}">
+            <ShellContent Route="ProfilePage" ContentTemplate="{DataTemplate local:ProfilePage}" />
+        </Tab>
+    </TabBar>
+</Shell>
