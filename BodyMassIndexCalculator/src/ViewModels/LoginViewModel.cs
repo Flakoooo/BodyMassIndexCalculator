@@ -1,12 +1,15 @@
 ﻿using BodyMassIndexCalculator.src.Services;
+using BodyMassIndexCalculator.src.Services.Interfaces;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BodyMassIndexCalculator.src.ViewModels
 {
     public partial class LoginViewModel : ObservableObject
     {
         private readonly INavigationService _navigationService;
+        private readonly AuthService _authService;
         
         [ObservableProperty]
         private string? _errorText;
@@ -14,29 +17,16 @@ namespace BodyMassIndexCalculator.src.ViewModels
         [ObservableProperty]
         private bool _isErrorVisible;
 
-
         [ObservableProperty]
         private string? _email;
 
         [ObservableProperty]
         private string? _password;
 
-        /*
-        [ObservableProperty]
-        private string _registerFirstName;
-
-        [ObservableProperty]
-        private string _registerLastName;
-
-        [ObservableProperty]
-        private string _registerEmail;
-
-        [ObservableProperty]
-        private string _registerPassword;
-        */
-        public LoginViewModel(INavigationService navigationService)
+        public LoginViewModel(INavigationService navigationService, AuthService authService)
         {
             _navigationService = navigationService;
+            _authService = authService;
             ErrorText = string.Empty;
             IsErrorVisible = false;
             Email = string.Empty;
@@ -53,18 +43,28 @@ namespace BodyMassIndexCalculator.src.ViewModels
                 return;
             }
 
-            if (Email == "user@example.com" && Password == "12345")
+            var (result, error) = await _authService.SignIn(Email, Password);
+            if (result == null)
             {
-                IsErrorVisible = false;
-                Preferences.Set("IsLoggedIn", true);
-
-                await _navigationService.GoToMainTabsAsync();
+                ErrorText = error;
+                IsErrorVisible = true;
             }
             else
             {
-                ErrorText = "Неверный email или пароль!";
-                IsErrorVisible = true;
+                if (result.User?.Email == Email)
+                {
+                    IsErrorVisible = false;
+                    await _navigationService.GoToMainTabsAsync();
+                }
+                else
+                {
+                    ErrorText = !error.IsNullOrEmpty() ? error : "Неверный email или пароль!";
+                    IsErrorVisible = true;
+                }
             }
         }
+
+        [RelayCommand]
+        private async Task GoToRegister() => await _navigationService.GoToRegisterAsync();
     }
 }

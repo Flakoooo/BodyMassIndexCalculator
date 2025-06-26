@@ -1,8 +1,17 @@
-﻿namespace BodyMassIndexCalculator
+﻿using BodyMassIndexCalculator.src.Services;
+
+namespace BodyMassIndexCalculator
 {
     public partial class App : Application
     {
-        public App() => InitializeComponent();
-        protected override Window CreateWindow(IActivationState? activationState) => new(new AppShell());
+        private readonly AuthService _authService;
+        public App(AuthService authService)
+        {
+            _authService = authService;
+            InitializeComponent();
+
+            Task.Run(SupabaseService.Initialize).Wait();
+        }
+        protected override Window CreateWindow(IActivationState? activationState) => new(new AppShell(_authService));
     }
 }

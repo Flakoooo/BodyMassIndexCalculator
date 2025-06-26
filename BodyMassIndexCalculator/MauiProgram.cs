@@ -1,4 +1,5 @@
 ﻿using BodyMassIndexCalculator.src.Services;
+using BodyMassIndexCalculator.src.Services.Interfaces;
 using BodyMassIndexCalculator.src.ViewModels;
 using Microsoft.Extensions.Logging;
 
@@ -13,7 +14,10 @@ namespace BodyMassIndexCalculator
 
             builder.Services
                 .AddSingleton<INavigationService, NavigationService>()
+                .AddSingleton<AuthService>()
+                .AddSingleton<IAPI, API>()
                 .AddTransient<LoginViewModel>()
+                .AddTransient<RegisterViewModel>()
                 .AddTransient<CalculatorViewModel>()
                 .AddTransient<ProfileViewModel>();
 

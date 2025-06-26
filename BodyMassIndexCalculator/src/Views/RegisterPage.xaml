@@ -2,16 +2,30 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:BodyMassIndexCalculator.src.ViewModels"
-             x:Class="BodyMassIndexCalculator.src.Views.LoginPage"
-             x:DataType="vm:LoginViewModel"
+             x:Class="BodyMassIndexCalculator.src.Views.RegisterPage"
+             x:DataType="vm:RegisterViewModel"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     <ScrollView>
         <StackLayout Padding="30" Spacing="30" VerticalOptions="Center">
             <StackLayout Spacing="15" HorizontalOptions="Center">
-                <Label Text="Вход в приложение" Style="{DynamicResource SignLabelStyle}"/>
+                <Label Text="Регистрация" Style="{DynamicResource SignLabelStyle}"/>
             </StackLayout>
             <Border Style="{StaticResource CardStyle}">
                 <StackLayout Spacing="20" Padding="20">
+                    <StackLayout>
+                        <Label Text="Имя" Style="{StaticResource InputLabelStyle}"/>
+                        <Entry Placeholder="Введите имя" 
+                               Keyboard="Default"
+                               Text="{Binding FirstName}"
+                               Style="{StaticResource EntryStyle}"/>
+                    </StackLayout>
+                    <StackLayout>
+                        <Label Text="Фамилия" Style="{StaticResource InputLabelStyle}"/>
+                        <Entry Placeholder="Введите фамилию" 
+                               Keyboard="Default"
+                               Text="{Binding LastName}"
+                               Style="{StaticResource EntryStyle}"/>
+                    </StackLayout>
                     <StackLayout>
                         <Label Text="Email" Style="{StaticResource InputLabelStyle}"/>
                         <Entry Placeholder="user@example.com" 
@@ -29,9 +43,9 @@
                     <Label HorizontalOptions="Center">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Зарегистрироваться" Style="{StaticResource ClickableSpanStyle}">
+                                <Span Text="Вернуться к странице входа" Style="{StaticResource ClickableSpanStyle}">
                                     <Span.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
+                                        <TapGestureRecognizer Command="{Binding GoToLoginCommand}" />
                                     </Span.GestureRecognizers>
                                 </Span>
                             </FormattedString>
@@ -39,8 +53,8 @@
                     </Label>
                 </StackLayout>
             </Border>
-            <Button Text="ВОЙТИ" 
-                    Command="{Binding LoginCommand}"
+            <Button Text="СОЗДАТЬ АККАУНТ" 
+                    Command="{Binding RegisterCommand}"
                     Style="{StaticResource PrimaryButtonStyle}"/>
             <Label Text="{Binding ErrorText}"
                    IsVisible="{Binding IsErrorVisible}"

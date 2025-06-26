@@ -25,6 +25,19 @@
                 </Setter>
             </Style>
 
+            <Style x:Key="SignLabelStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="ClickableSpanStyle" TargetType="Span">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="TextDecorations" Value="None"/>
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
+            </Style>
+
             <Style x:Key="PrimaryButtonStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}"/>
                 <Setter Property="TextColor" Value="{DynamicResource InterfaceColor}"/>

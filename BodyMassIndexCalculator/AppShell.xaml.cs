@@ -1,19 +1,21 @@
-﻿namespace BodyMassIndexCalculator
+﻿using BodyMassIndexCalculator.src.Services;
+
+namespace BodyMassIndexCalculator
 {
     public partial class AppShell : Shell
     {
         public ShellItem MainTabsShellItem => (ShellItem)FindByName("MainTabs");
         public ShellItem LoginPageShellItem => (ShellItem)FindByName("LoginPage");
+        public ShellItem RegisterPageShellItem => (ShellItem)FindByName("RegisterPage");
 
-        public AppShell()
+        public AppShell(AuthService authService)
         {
             InitializeComponent();
 
-            bool isLoggedIn = Preferences.Get("IsLoggedIn", false);
-            //isLoggedIn = false;
-
-            if (isLoggedIn)
+            if (authService.CurrentSession != null)
+            {
                 CurrentItem = MainTabsShellItem;
+            }
         }
     }
 }

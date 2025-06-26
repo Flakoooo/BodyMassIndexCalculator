@@ -1,10 +1,22 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using BodyMassIndexCalculator.src.Services;
+using BodyMassIndexCalculator.src.Services.Interfaces;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace BodyMassIndexCalculator.src.ViewModels
 {
     public partial class CalculatorViewModel : ObservableObject
     {
+        private readonly AuthService _authService;
+        private readonly IAPI _api;
+
+
+        [ObservableProperty]
+        private string? _errorText;
+
+        [ObservableProperty]
+        private bool _isErrorVisible;
+
         [ObservableProperty]
         private bool _isResultVisible;
 
@@ -20,8 +32,12 @@ namespace BodyMassIndexCalculator.src.ViewModels
         [ObservableProperty]
         private string? _weight;
 
-        public CalculatorViewModel() 
+        public CalculatorViewModel(AuthService authService, IAPI api) 
         {
+            _authService = authService;
+            _api = api;
+            IsErrorVisible = false;
+            ErrorText = string.Empty;
             IsResultVisible = false;
             Result = string.Empty;
             Recommendation = string.Empty;
@@ -33,13 +49,30 @@ namespace BodyMassIndexCalculator.src.ViewModels
         private async Task Calculate()
         {
             if (string.IsNullOrWhiteSpace(Height) || string.IsNullOrWhiteSpace(Weight))
+            {
+                if (string.IsNullOrWhiteSpace(Height) && string.IsNullOrWhiteSpace(Weight))
+                    ErrorText = "Заполните все поля!!";
+                else if (string.IsNullOrWhiteSpace(Height) && !string.IsNullOrWhiteSpace(Weight))
+                    ErrorText = "Поле Рост не заполнено!";
+                else if (!string.IsNullOrWhiteSpace(Height) && string.IsNullOrWhiteSpace(Weight))
+                    ErrorText = "Поле Вес не заполнено!";
+
+                IsErrorVisible = true;
                 return;
+            }
 
             if (int.TryParse(Height, out int height) && int.TryParse(Weight, out int weight))
             {
                 double index = Math.Round(weight / Math.Pow((double)height / 100, 2), 2);
                 Result = index.ToString();
                 Recommendation = GetRecommendation(index);
+
+                var id = _authService.CurrentSession?.User?.Id;
+                if (id != null)
+                {
+                    await _api.CreateCalculation(Guid.Parse(id), height, weight, index, Recommendation);
+                }
+
                 IsResultVisible = true;
             }
             return;

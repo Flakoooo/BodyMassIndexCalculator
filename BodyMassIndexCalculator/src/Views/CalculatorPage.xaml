@@ -38,6 +38,9 @@
             <Button Text="РАССЧИТАТЬ" 
                     Command="{Binding CalculateCommand}"
                     Style="{StaticResource PrimaryButtonStyle}"/>
+            <Label Text="{Binding ErrorText}"
+                   IsVisible="{Binding IsErrorVisible}"
+                   Style="{StaticResource ErrorLabelStyle}"/>
             <Border IsVisible="{Binding IsResultVisible}" Style="{StaticResource ResultCardStyle}">
                 <StackLayout Spacing="8" Padding="15">
                     <Label Text="Ваш индекс массы тела:" Style="{StaticResource ResultHeaderStyle}"/>
