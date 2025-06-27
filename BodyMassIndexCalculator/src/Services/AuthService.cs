@@ -83,12 +83,6 @@ namespace BodyMassIndexCalculator.src.Services
             return null;
         }
 
-        public void SignOut()
-        {
-            SupabaseService.Client.Auth.SignOut();
-            CurrentSession = null;
-        }
-
         private static string GetUserFriendlyError(GotrueException gex)
         {
             if (gex.StatusCode != 0)
