@@ -63,7 +63,7 @@ namespace BodyMassIndexCalculator.src.Services
                 string userFriendlyError = GetUserFriendlyError(gex);
                 return (null, userFriendlyError);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return (null, "Произошла непредвиденная ошибка");
             }
