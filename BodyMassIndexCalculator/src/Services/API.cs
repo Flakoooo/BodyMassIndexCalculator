@@ -29,6 +29,7 @@ namespace BodyMassIndexCalculator.src.Services
         {
             var newCalculation = new BodyMassIndexCalculation
             {
+                CreatedAt = DateTime.Now,
                 UserId = userId,
                 Height = height,
                 Weight = weight,

@@ -60,10 +60,10 @@ namespace BodyMassIndexCalculator.src.ViewModels
                 return;
             }
 
-            var (result, error) = await AuthService.SignUp(FirstName, LastName, Email, Password);
+            var (result, error) = await _authService.SignUp(FirstName, LastName, Email, Password);
 
             if (result != null)
-                await _navigationService.GoToLoginAsync();
+                await _navigationService.GoToMainTabsAsync();
             else
             {
                 ErrorText = error;

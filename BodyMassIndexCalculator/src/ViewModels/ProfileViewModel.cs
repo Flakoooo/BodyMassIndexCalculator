@@ -2,6 +2,7 @@
 using BodyMassIndexCalculator.src.Services;
 using BodyMassIndexCalculator.src.Services.Interfaces;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 
 namespace BodyMassIndexCalculator.src.ViewModels
@@ -10,7 +11,8 @@ namespace BodyMassIndexCalculator.src.ViewModels
     {
         private readonly IAPI _api;
         private readonly AuthService _authService;
-        
+        private DateTime _lastRefreshTime = DateTime.MinValue;
+
         [ObservableProperty]
         private string? _name;
 
@@ -24,44 +26,67 @@ namespace BodyMassIndexCalculator.src.ViewModels
         {
             _api = api;
             _authService = authService;
-            InitializeProfile();
-            InitializeCalculations();
+            _ = InitializeData();
         }
 
-        private async void InitializeProfile()
+        [RelayCommand]
+        public async Task RefreshData()
+        {
+            if ((DateTime.Now - _lastRefreshTime).TotalSeconds < 5)
+                return;
+
+            await InitializeData();
+            _lastRefreshTime = DateTime.Now;
+        }
+
+        private async Task InitializeData()
+        {
+            await Task.WhenAll(
+                LoadProfileDataAsync(),
+                LoadCalculationsDataAsync()
+            );
+        }
+
+        private async Task LoadProfileDataAsync()
         {
             var user = _authService.CurrentSession?.User;
-            if (user != null)
+            if (user == null)
             {
-                var id = user.Id;
-                if (id != null)
-                {
-                    var profile = await _api.GetProfileByUserId(Guid.Parse(id));
-                    if (profile != null)
-                        Name = $"{profile.FirstName} {profile.LastName}";
-                    else
-                        Name = "null null";
-                }
-                else
-                    Name = "null null";
+                SetNullProfile();
+                return;
+            }
 
-                Email = user.Email;
-            }
-            else
-            {
-                Name = "null null";
-                Email = "null";
-            }
+            var profile = await GetUserProfileAsync(user.Id);
+            Name = profile != null ? $"{profile.FirstName} {profile.LastName}"
+                                   : "null null";
+
+            Email = user.Email ?? "null";
         }
 
-        private async void InitializeCalculations()
+        private async Task LoadCalculationsDataAsync()
         {
-            IEnumerable<BodyMassIndexCalculation> calculations = [];
-            var id = _authService.CurrentSession?.User?.Id;
-            if (id != null)
-                calculations = await _api.GetCalculationsByUserId(Guid.Parse(id));
+            var calculations = await GetUserCalculationsAsync();
+            BodyMassIndexCalculations = new ObservableCollection<BodyMassIndexCalculation>(
+                calculations.OrderByDescending(bmic => bmic.CreatedAt)
+            );
+        }
 
-            BodyMassIndexCalculations = new ObservableCollection<BodyMassIndexCalculation>(calculations.OrderBy(bmic => bmic.CreatedAt).Reverse());
+        private async Task<Profile?> GetUserProfileAsync(string? userId)
+        {
+            if (userId == null) return null;
+            return await _api.GetProfileByUserId(Guid.Parse(userId));
+        }
+
+        private async Task<IEnumerable<BodyMassIndexCalculation>> GetUserCalculationsAsync()
+        {
+            var userId = _authService.CurrentSession?.User?.Id;
+            return userId != null ? await _api.GetCalculationsByUserId(Guid.Parse(userId)) : [];
+        }
+
+        private void SetNullProfile()
+        {
+            Name = "null null";
+            Email = "null";
         }
     }
 }

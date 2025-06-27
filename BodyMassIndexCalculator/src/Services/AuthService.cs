@@ -39,32 +39,33 @@ namespace BodyMassIndexCalculator.src.Services
             }
         }
 
-        public static async Task<(Session? Session, string? Error)> SignUp(string firstName, string lastName, string email, string password)
+        public async Task<(Session? Session, string? Error)> SignUp(string firstName, string lastName, string email, string password)
         {
             try
             {
                 var signUpResponse = await SupabaseService.Client.Auth.SignUp(email, password);
-
                 if (signUpResponse?.User?.Id == null)
                     return (null, "Не удалось создать аккаунт");
 
-                var saveProfileResponse = await SaveUserProfile(Guid.Parse(signUpResponse.User.Id), firstName, lastName);
+                var signInResponse = await SupabaseService.Client.Auth.SignIn(email, password);
+                CurrentSession = signInResponse;
+                if (signInResponse?.User?.Id == null)
+                    return (null, "Произошла непредвиденная ошибка");
 
+                var saveProfileResponse = await SaveUserProfile(Guid.Parse(signInResponse.User.Id), firstName, lastName);
                 if (saveProfileResponse != null)
-                    return (null, "Не удалось создать профиль");
+                    return (null, "Произошла непредвиденная ошибка");
 
                 return (signUpResponse, null);
             }
             catch (GotrueException gex)
             {
                 string userFriendlyError = GetUserFriendlyError(gex);
-                await Shell.Current.DisplayAlert("ошиПка",gex.Message,"OK");
-                return (null, null);
+                return (null, userFriendlyError);
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("ошиПка", ex.Message, "OK");
-                return (null, null);
+                return (null, "Произошла непредвиденная ошибка");
             }
         }
 

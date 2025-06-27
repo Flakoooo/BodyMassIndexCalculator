@@ -4,10 +4,17 @@ namespace BodyMassIndexCalculator.src.Views
 {
     public partial class ProfilePage : ContentPage
     {
-    	public ProfilePage(ProfileViewModel profileViewModel)
+        private readonly ProfileViewModel _viewModel;
+        public ProfilePage(ProfileViewModel profileViewModel)
     	{
     		InitializeComponent();
-    		BindingContext = profileViewModel;
+    		BindingContext = _viewModel = profileViewModel;
     	}
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.RefreshDataCommand.Execute(null);
+        }
     }
 }
