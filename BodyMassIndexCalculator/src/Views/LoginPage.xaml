@@ -16,14 +16,14 @@
                         <Label Text="Email" Style="{StaticResource InputLabelStyle}"/>
                         <Entry Placeholder="user@example.com" 
                                Keyboard="Email"
-                               Text="{Binding Email}"
+                               Text="{Binding LoginModel.Email}"
                                Style="{StaticResource EntryStyle}"/>
                     </StackLayout>
                     <StackLayout>
                         <Label Text="Пароль" Style="{StaticResource InputLabelStyle}"/>
                         <Entry Placeholder="Введите пароль" 
                                IsPassword="True"
-                               Text="{Binding Password}"
+                               Text="{Binding LoginModel.Password}"
                                Style="{StaticResource EntryStyle}"/>
                     </StackLayout>
                     <Label HorizontalOptions="Center">
@@ -42,8 +42,8 @@
             <Button Text="ВОЙТИ" 
                     Command="{Binding LoginCommand}"
                     Style="{StaticResource PrimaryButtonStyle}"/>
-            <Label Text="{Binding ErrorText}"
-                   IsVisible="{Binding IsErrorVisible}"
+            <Label Text="{Binding LoginModel.ErrorText}"
+                   IsVisible="{Binding LoginModel.IsErrorVisible}"
                    Style="{StaticResource ErrorLabelStyle}"/>
         </StackLayout>
     </ScrollView>

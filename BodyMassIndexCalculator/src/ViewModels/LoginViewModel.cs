@@ -6,11 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BodyMassIndexCalculator.src.ViewModels
 {
-    public partial class LoginViewModel : ObservableObject
+    public partial class LoginModel : ObservableObject
     {
-        private readonly INavigationService _navigationService;
-        private readonly AuthService _authService;
-        
         [ObservableProperty]
         private string? _errorText;
 
@@ -22,45 +19,56 @@ namespace BodyMassIndexCalculator.src.ViewModels
 
         [ObservableProperty]
         private string? _password;
+    }
+
+    public partial class LoginViewModel : ObservableObject
+    {
+        private readonly INavigationService _navigationService;
+        private readonly AuthService _authService;
+
+        [ObservableProperty]
+        private LoginModel _loginModel;
 
         public LoginViewModel(INavigationService navigationService, AuthService authService)
         {
             _navigationService = navigationService;
             _authService = authService;
-            ErrorText = string.Empty;
-            IsErrorVisible = false;
-            Email = string.Empty;
-            Password = string.Empty;
+            LoginModel = new LoginModel
+            {
+                ErrorText = string.Empty,
+                IsErrorVisible = false,
+                Email = string.Empty,
+                Password = string.Empty
+            };
+        }
+
+        private void SetErrorText(string? error, bool visible)
+        {
+            LoginModel.ErrorText = error;
+            LoginModel.IsErrorVisible = visible;
         }
 
         [RelayCommand]
         private async Task Login()
         {
-            if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+            if (string.IsNullOrWhiteSpace(LoginModel.Email) || 
+                string.IsNullOrWhiteSpace(LoginModel.Password))
             {
-                ErrorText = "Заполните все поля!";
-                IsErrorVisible = true;
+                SetErrorText("Заполните все поля!", true);
                 return;
             }
 
-            var (result, error) = await _authService.SignIn(Email, Password);
-            if (result == null)
-            {
-                ErrorText = error;
-                IsErrorVisible = true;
-            }
+            var (result, error) = await _authService.SignIn(LoginModel.Email, LoginModel.Password);
+            if (result == null) SetErrorText(error, true);
             else
             {
-                if (result.User?.Email == Email)
+                if (result.User?.Email == LoginModel.Email)
                 {
-                    IsErrorVisible = false;
+                    LoginModel.IsErrorVisible = false;
                     await _navigationService.GoToMainTabsAsync();
                 }
                 else
-                {
-                    ErrorText = !error.IsNullOrEmpty() ? error : "Неверный email или пароль!";
-                    IsErrorVisible = true;
-                }
+                    SetErrorText(!error.IsNullOrEmpty() ? error : "Неверный email или пароль!", true);
             }
         }
 

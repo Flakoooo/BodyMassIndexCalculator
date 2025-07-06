@@ -22,14 +22,14 @@
                             <Label Text="Рост (см)" Style="{StaticResource InputLabelStyle}"/>
                             <Entry Placeholder="175" 
                                    Keyboard="Numeric"
-                                   Text="{Binding Height}"
+                                   Text="{Binding CalculatorModel.Height}"
                                    Style="{StaticResource EntryStyle}"/>
                         </StackLayout>
                         <StackLayout>
                             <Label Text="Вес (кг)" Style="{StaticResource InputLabelStyle}"/>
                             <Entry Placeholder="70" 
                                    Keyboard="Numeric"
-                                   Text="{Binding Weight}"
+                                   Text="{Binding CalculatorModel.Weight}"
                                    Style="{StaticResource EntryStyle}"/>
                         </StackLayout>
                     </StackLayout>
@@ -38,14 +38,14 @@
             <Button Text="РАССЧИТАТЬ" 
                     Command="{Binding CalculateCommand}"
                     Style="{StaticResource PrimaryButtonStyle}"/>
-            <Label Text="{Binding ErrorText}"
-                   IsVisible="{Binding IsErrorVisible}"
+            <Label Text="{Binding CalculatorModel.ErrorText}"
+                   IsVisible="{Binding CalculatorModel.IsErrorVisible}"
                    Style="{StaticResource ErrorLabelStyle}"/>
-            <Border IsVisible="{Binding IsResultVisible}" Style="{StaticResource ResultCardStyle}">
+            <Border IsVisible="{Binding CalculatorModel.IsResultVisible}" Style="{StaticResource ResultCardStyle}">
                 <StackLayout Spacing="8" Padding="15">
                     <Label Text="Ваш индекс массы тела:" Style="{StaticResource ResultHeaderStyle}"/>
-                    <Label Text="{Binding Result}" Style="{StaticResource ResultValueStyle}"/>
-                    <Label Text="{Binding Recommendation}" Style="{StaticResource ResultDescriptionStyle}"/>
+                    <Label Text="{Binding CalculatorModel.Result}" Style="{StaticResource ResultValueStyle}"/>
+                    <Label Text="{Binding CalculatorModel.Recommendation}" Style="{StaticResource ResultDescriptionStyle}"/>
                 </StackLayout>
             </Border>
         </StackLayout>

@@ -7,12 +7,8 @@ using System.Collections.ObjectModel;
 
 namespace BodyMassIndexCalculator.src.ViewModels
 {
-    public partial class ProfileViewModel : ObservableObject
+    public partial class ProfileModel : ObservableObject
     {
-        private readonly IAPI _api;
-        private readonly AuthService _authService;
-        private DateTime _lastRefreshTime = DateTime.MinValue;
-
         [ObservableProperty]
         private string? _name;
 
@@ -21,11 +17,27 @@ namespace BodyMassIndexCalculator.src.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<BodyMassIndexCalculation>? _bodyMassIndexCalculations;
+    }
+
+    public partial class ProfileViewModel : ObservableObject
+    {
+        private readonly IAPI _api;
+        private readonly AuthService _authService;
+        private DateTime _lastRefreshTime = DateTime.MinValue;
+
+        [ObservableProperty]
+        private ProfileModel _profileModel;
 
         public ProfileViewModel(IAPI api, AuthService authService)
         {
             _api = api;
             _authService = authService;
+            ProfileModel = new ProfileModel
+            {
+                Name = string.Empty,
+                Email = string.Empty,
+                BodyMassIndexCalculations = []
+            };
             _ = InitializeData();
         }
 
@@ -57,16 +69,16 @@ namespace BodyMassIndexCalculator.src.ViewModels
             }
 
             var profile = await GetUserProfileAsync(user.Id);
-            Name = profile != null ? $"{profile.FirstName} {profile.LastName}"
+            ProfileModel.Name = profile != null ? $"{profile.FirstName} {profile.LastName}"
                                    : "null null";
 
-            Email = user.Email ?? "null";
+            ProfileModel.Email = user.Email ?? "null";
         }
 
         private async Task LoadCalculationsDataAsync()
         {
             var calculations = await GetUserCalculationsAsync();
-            BodyMassIndexCalculations = new ObservableCollection<BodyMassIndexCalculation>(
+            ProfileModel.BodyMassIndexCalculations = new ObservableCollection<BodyMassIndexCalculation>(
                 calculations.OrderByDescending(bmic => bmic.CreatedAt)
             );
         }
@@ -85,8 +97,8 @@ namespace BodyMassIndexCalculator.src.ViewModels
 
         private void SetNullProfile()
         {
-            Name = "null null";
-            Email = "null";
+            ProfileModel.Name = "null null";
+            ProfileModel.Email = "null";
         }
     }
 }

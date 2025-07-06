@@ -5,11 +5,8 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace BodyMassIndexCalculator.src.ViewModels
 {
-    public partial class RegisterViewModel : ObservableObject
+    public partial class RegisterModel : ObservableObject
     {
-        private readonly INavigationService _navigationService;
-        private readonly AuthService _authService;
-
         [ObservableProperty]
         private string? _errorText;
 
@@ -17,57 +14,76 @@ namespace BodyMassIndexCalculator.src.ViewModels
         private bool _isErrorVisible;
 
         [ObservableProperty]
-        private string _firstName;
-
-        [ObservableProperty] 
-        private string _lastName;
-        
-        [ObservableProperty]
-        private string _email;
+        private string? _firstName;
 
         [ObservableProperty]
-        private string _password;
+        private string? _lastName;
+
+        [ObservableProperty]
+        private string? _email;
+
+        [ObservableProperty]
+        private string? _password;
+    }
+
+    public partial class RegisterViewModel : ObservableObject
+    {
+        private readonly INavigationService _navigationService;
+        private readonly AuthService _authService;
+
+        [ObservableProperty]
+        private RegisterModel _registerModel;
 
         public RegisterViewModel(INavigationService navigationService, AuthService authService)
         {
             _navigationService = navigationService;
             _authService = authService;
-            ErrorText = string.Empty;
-            IsErrorVisible = false;
-            FirstName = string.Empty;
-            LastName = string.Empty;
-            Email = string.Empty;
-            Password = string.Empty;
+            RegisterModel = new RegisterModel
+            {
+                ErrorText = string.Empty,
+                IsErrorVisible = false,
+                FirstName = string.Empty,
+                LastName = string.Empty,
+                Email = string.Empty,
+                Password = string.Empty
+
+            };
+        }
+
+        private void SetErrorText(string? error, bool visible)
+        {
+            RegisterModel.ErrorText = error;
+            RegisterModel.IsErrorVisible = visible;
         }
 
         [RelayCommand]
         private async Task Register()
         {
-            if (string.IsNullOrWhiteSpace(FirstName) || 
-                string.IsNullOrWhiteSpace(LastName) || 
-                string.IsNullOrWhiteSpace(Email) || 
-                string.IsNullOrWhiteSpace(Password))
+            if (string.IsNullOrWhiteSpace(RegisterModel.FirstName) || 
+                string.IsNullOrWhiteSpace(RegisterModel.LastName) || 
+                string.IsNullOrWhiteSpace(RegisterModel.Email) || 
+                string.IsNullOrWhiteSpace(RegisterModel.Password))
             {
-                ErrorText = "Заполните все поля!";
-                IsErrorVisible = true;
+                SetErrorText("Заполните все поля!", true);
                 return;
             }
 
-            if (Password.Length < 6)
+            if (RegisterModel.Password.Length < 6)
             {
-                ErrorText = "Пароль должен содержать минимум 6 символов";
-                IsErrorVisible = true;
+                SetErrorText("Пароль должен содержать минимум 6 символов", true);
                 return;
             }
 
-            var (result, error) = await _authService.SignUp(FirstName, LastName, Email, Password);
+            var (result, error) = await _authService.SignUp(
+                RegisterModel.FirstName, 
+                RegisterModel.LastName, 
+                RegisterModel.Email, 
+                RegisterModel.Password);
 
-            if (result != null)
-                await _navigationService.GoToMainTabsAsync();
+            if (result != null) await _navigationService.GoToMainTabsAsync();
             else
             {
-                ErrorText = error;
-                IsErrorVisible = true;
+                SetErrorText(error, true);
                 return;
             }
         }

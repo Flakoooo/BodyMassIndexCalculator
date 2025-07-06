@@ -12,6 +12,8 @@ namespace BodyMassIndexCalculator
         {
             InitializeComponent();
 
+            SetNavBarIsVisible(this, false);
+
             if (authService.CurrentSession != null)
             {
                 CurrentItem = MainTabsShellItem;

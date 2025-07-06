@@ -3,9 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:BodyMassIndexCalculator.src.ViewModels"
              xmlns:model="clr-namespace:BodyMassIndexCalculator.src.Models"
+             xmlns:converter="clr-namespace:BodyMassIndexCalculator.src.Converters"
              x:Class="BodyMassIndexCalculator.src.Views.ProfilePage"
              x:DataType="vm:ProfileViewModel"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
+    <ContentPage.Resources>
+        <converter:DateConverter x:Key="DateConverter" />
+    </ContentPage.Resources>
     <ScrollView>
         <StackLayout Padding="20" Spacing="25">
             <Border Style="{StaticResource CardStyle}" Padding="20" HorizontalOptions="Fill">
@@ -19,12 +23,12 @@
                         <Image Source="dotnet_bot.png" Aspect="AspectFill" />
                     </Border>
                     <StackLayout Spacing="5" HorizontalOptions="Center">
-                        <Label Text="{Binding Name}" 
+                        <Label Text="{Binding ProfileModel.Name}" 
                                FontSize="18" 
                                FontAttributes="Bold"
                                HorizontalOptions="Center"
                                TextColor="{DynamicResource SecondaryTextColor}"/>
-                        <Label Text="{Binding Email}" Style="{StaticResource SecondaryLabelStyle}"/>
+                        <Label Text="{Binding ProfileModel.Email}" Style="{StaticResource SecondaryLabelStyle}"/>
                     </StackLayout>
                 </StackLayout>
             </Border>
@@ -33,20 +37,17 @@
                     <Label Text="Активность" Style="{StaticResource SectionHeaderStyle}"/>
                 </StackLayout>
             </Border>
-            <CollectionView ItemsSource="{Binding BodyMassIndexCalculations}" ItemSizingStrategy="MeasureAllItems">           
+            <CollectionView ItemsSource="{Binding ProfileModel.BodyMassIndexCalculations}" ItemSizingStrategy="MeasureAllItems">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
                 </CollectionView.ItemsLayout>
-                <CollectionView.EmptyView>
-                    <Label Text="Нет данных о расчетах" HorizontalOptions="Center" VerticalOptions="Center"/>
-                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:BodyMassIndexCalculation">
                         <Border Style="{StaticResource CardStyle}">
                             <StackLayout Spacing="10">
                                 <StackLayout>
                                     <Label Text="Время расчёта" Style="{StaticResource IndicatorLabelStyle}"/>
-                                    <Label Text="{Binding CreatedAt}" Style="{StaticResource ValueLabelStyle}"/>
+                                    <Label Text="{Binding CreatedAt, Converter={StaticResource DateConverter}}" Style="{StaticResource ValueLabelStyle}"/>
                                 </StackLayout>
                                 <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto">
                                     <StackLayout Grid.Column="0">

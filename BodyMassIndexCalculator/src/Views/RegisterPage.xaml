@@ -16,28 +16,28 @@
                         <Label Text="Имя" Style="{StaticResource InputLabelStyle}"/>
                         <Entry Placeholder="Введите имя" 
                                Keyboard="Default"
-                               Text="{Binding FirstName}"
+                               Text="{Binding RegisterModel.FirstName}"
                                Style="{StaticResource EntryStyle}"/>
                     </StackLayout>
                     <StackLayout>
                         <Label Text="Фамилия" Style="{StaticResource InputLabelStyle}"/>
                         <Entry Placeholder="Введите фамилию" 
                                Keyboard="Default"
-                               Text="{Binding LastName}"
+                               Text="{Binding RegisterModel.LastName}"
                                Style="{StaticResource EntryStyle}"/>
                     </StackLayout>
                     <StackLayout>
                         <Label Text="Email" Style="{StaticResource InputLabelStyle}"/>
                         <Entry Placeholder="user@example.com" 
                                Keyboard="Email"
-                               Text="{Binding Email}"
+                               Text="{Binding RegisterModel.Email}"
                                Style="{StaticResource EntryStyle}"/>
                     </StackLayout>
                     <StackLayout>
                         <Label Text="Пароль" Style="{StaticResource InputLabelStyle}"/>
                         <Entry Placeholder="Введите пароль" 
                                IsPassword="True"
-                               Text="{Binding Password}"
+                               Text="{Binding RegisterModel.Password}"
                                Style="{StaticResource EntryStyle}"/>
                     </StackLayout>
                     <Label HorizontalOptions="Center">
@@ -56,8 +56,8 @@
             <Button Text="СОЗДАТЬ АККАУНТ" 
                     Command="{Binding RegisterCommand}"
                     Style="{StaticResource PrimaryButtonStyle}"/>
-            <Label Text="{Binding ErrorText}"
-                   IsVisible="{Binding IsErrorVisible}"
+            <Label Text="{Binding RegisterModel.ErrorText}"
+                   IsVisible="{Binding RegisterModel.IsErrorVisible}"
                    Style="{StaticResource ErrorLabelStyle}"/>
         </StackLayout>
     </ScrollView>
