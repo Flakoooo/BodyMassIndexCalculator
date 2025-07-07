@@ -8,7 +8,7 @@
     <ScrollView>
         <StackLayout Padding="20" Spacing="25">
             <StackLayout HorizontalOptions="Center" Spacing="10">
-                <Label Text="Калькулятор калорий" 
+                <Label Text="Калькулятор индекса массы тела" 
                        FontSize="24" 
                        FontAttributes="Bold" 
                        TextColor="{DynamicResource PrimaryColor}"
