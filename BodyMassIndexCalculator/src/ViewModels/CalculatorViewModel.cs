@@ -51,7 +51,6 @@ namespace BodyMassIndexCalculator.src.ViewModels
                 Height = string.Empty,
                 Weight = string.Empty
             };
-            
         }
 
         [RelayCommand]
@@ -86,6 +85,8 @@ namespace BodyMassIndexCalculator.src.ViewModels
                 {
                     await _api.CreateCalculation(Guid.Parse(id), height, weight, index, CalculatorModel.Recommendation);
                 }
+                CalculatorModel.IsErrorVisible = false;
+                CalculatorModel.ErrorText = string.Empty;
 
                 CalculatorModel.IsResultVisible = true;
             }
