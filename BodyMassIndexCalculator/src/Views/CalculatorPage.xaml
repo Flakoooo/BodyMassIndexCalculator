@@ -7,31 +7,23 @@
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     <ScrollView>
         <StackLayout Padding="20" Spacing="25">
-            <StackLayout HorizontalOptions="Center" Spacing="10">
-                <Label Text="Калькулятор индекса массы тела" 
-                       FontSize="24" 
-                       FontAttributes="Bold" 
-                       TextColor="{DynamicResource PrimaryColor}"
-                       HorizontalOptions="Center"/>
-            </StackLayout>
+            <Label Text="Калькулятор индекса массы тела" Style="{StaticResource PageLabelStyle}"/>
             <Border Style="{StaticResource CardStyle}">
-                <StackLayout Spacing="20" Padding="15">
-                    <StackLayout Spacing="15">
-                        <Label Text="Персональные данные" Style="{StaticResource SectionHeaderStyle}"/>
-                        <StackLayout>
-                            <Label Text="Рост (см)" Style="{StaticResource InputLabelStyle}"/>
-                            <Entry Placeholder="175" 
-                                   Keyboard="Numeric"
-                                   Text="{Binding CalculatorModel.Height}"
-                                   Style="{StaticResource EntryStyle}"/>
-                        </StackLayout>
-                        <StackLayout>
-                            <Label Text="Вес (кг)" Style="{StaticResource InputLabelStyle}"/>
-                            <Entry Placeholder="70" 
-                                   Keyboard="Numeric"
-                                   Text="{Binding CalculatorModel.Weight}"
-                                   Style="{StaticResource EntryStyle}"/>
-                        </StackLayout>
+                <StackLayout Padding="15" Spacing="20">
+                    <Label Text="Персональные данные" Style="{StaticResource SectionHeaderStyle}"/>
+                    <StackLayout>
+                        <Label Text="Рост (см)" Style="{StaticResource InputLabelStyle}"/>
+                        <Entry Placeholder="175" 
+                               Keyboard="Numeric"
+                               Text="{Binding CalculatorModel.Height}"
+                               Style="{StaticResource EntryStyle}"/>
+                    </StackLayout>
+                    <StackLayout>
+                        <Label Text="Вес (кг)" Style="{StaticResource InputLabelStyle}"/>
+                        <Entry Placeholder="70" 
+                               Keyboard="Numeric"
+                               Text="{Binding CalculatorModel.Weight}"
+                               Style="{StaticResource EntryStyle}"/>
                     </StackLayout>
                 </StackLayout>
             </Border>

@@ -4,28 +4,21 @@
              x:Class="BodyMassIndexCalculator.App">
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="PrimaryColor">#4CAF50</Color>
             <Color x:Key="PageBackgroundColor">#F5F5F5</Color>
+            <Color x:Key="PrimaryColor">#4CAF50</Color>
             <Color x:Key="InterfaceColor">#FFFFFF</Color>
-            <Color x:Key="PrimaryTextColor">#212121</Color>
             <Color x:Key="ErrorTextColor">#FF5252</Color>
             <Color x:Key="SecondaryTextColor">#757575</Color>
+            <Color x:Key="PrimaryTextColor">#212121</Color>
 
             <Style x:Key="CenteredTabStyle" TargetType="Tab">
                 <Setter Property="Shell.TabBarTitleColor" Value="{DynamicResource PrimaryTextColor}"/>
                 <Setter Property="Shell.TabBarUnselectedColor" Value="{DynamicResource SecondaryTextColor}"/>
                 <Setter Property="Shell.TabBarForegroundColor" Value="{DynamicResource InterfaceColor}"/>
                 <Setter Property="Shell.TabBarBackgroundColor" Value="{DynamicResource InterfaceColor}"/>
-                <Setter Property="Shell.TitleView">
-                    <Setter.Value>
-                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label Text="{Binding Title}" HorizontalOptions="Center" VerticalOptions="Center"/>
-                        </StackLayout>
-                    </Setter.Value>
-                </Setter>
             </Style>
 
-            <Style x:Key="SignLabelStyle" TargetType="Label">
+            <Style x:Key="PageLabelStyle" TargetType="Label">
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="FontSize" Value="24"/>
                 <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
@@ -85,7 +78,6 @@
             <Style x:Key="ResultCardStyle" TargetType="Border" BasedOn="{StaticResource CardStyle}">
                 <Setter Property="HorizontalOptions" Value="Fill"/>
                 <Setter Property="BackgroundColor" Value="#E8F5E9"/>
-                <!-- Светло-зеленый фон -->
             </Style>
 
             <Style x:Key="ResultHeaderStyle" TargetType="Label">

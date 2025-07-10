@@ -33,9 +33,7 @@
                 </StackLayout>
             </Border>
             <Border Style="{StaticResource CardStyle}">
-                <StackLayout Spacing="15">
-                    <Label Text="Активность" Style="{StaticResource SectionHeaderStyle}"/>
-                </StackLayout>
+                <Label Text="Активность" Style="{StaticResource SectionHeaderStyle}"/>
             </Border>
             <CollectionView ItemsSource="{Binding ProfileModel.BodyMassIndexCalculations}" ItemSizingStrategy="MeasureAllItems">
                 <CollectionView.ItemsLayout>

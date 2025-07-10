@@ -22,16 +22,14 @@ namespace BodyMassIndexCalculator.src.ViewModels
     public partial class ProfileViewModel : ObservableObject
     {
         private readonly IAPI _api;
-        private readonly AuthService _authService;
         private DateTime _lastRefreshTime = DateTime.MinValue;
 
         [ObservableProperty]
         private ProfileModel _profileModel;
 
-        public ProfileViewModel(IAPI api, AuthService authService)
+        public ProfileViewModel(IAPI api)
         {
             _api = api;
-            _authService = authService;
             ProfileModel = new ProfileModel
             {
                 Name = string.Empty,
@@ -61,7 +59,7 @@ namespace BodyMassIndexCalculator.src.ViewModels
 
         private async Task LoadProfileDataAsync()
         {
-            var user = _authService.CurrentSession?.User;
+            var user = SupabaseService.Client.Auth.CurrentUser;
             if (user == null)
             {
                 SetNullProfile();
@@ -73,6 +71,20 @@ namespace BodyMassIndexCalculator.src.ViewModels
                                    : "null null";
 
             ProfileModel.Email = user.Email ?? "null";
+
+            /*
+            var profile = await GetUserProfileAsync("1");
+            ProfileModel.Name = profile != null ? $"{profile.FirstName} {profile.LastName}"
+                                   : "null null";
+
+            ProfileModel.Email = "email" ?? "null";
+            */
+        }
+
+        private async Task<Profile?> GetUserProfileAsync(string? userId)
+        {
+            if (userId == null) return null;
+            return await _api.GetProfileByUserId(Guid.Parse(userId));
         }
 
         private async Task LoadCalculationsDataAsync()
@@ -83,16 +95,44 @@ namespace BodyMassIndexCalculator.src.ViewModels
             );
         }
 
-        private async Task<Profile?> GetUserProfileAsync(string? userId)
-        {
-            if (userId == null) return null;
-            return await _api.GetProfileByUserId(Guid.Parse(userId));
-        }
-
         private async Task<IEnumerable<BodyMassIndexCalculation>> GetUserCalculationsAsync()
         {
-            var userId = _authService.CurrentSession?.User?.Id;
+            var userId = SupabaseService.Client.Auth.CurrentUser?.Id;
             return userId != null ? await _api.GetCalculationsByUserId(Guid.Parse(userId)) : [];
+
+            /*
+            var userId = "1";
+            return userId != null ? 
+                [
+                new BodyMassIndexCalculation 
+                { 
+                    UserId = Guid.Parse("1"), 
+                    CreatedAt = DateTime.Now, 
+                    Height = 185,
+                    Weight = 77,
+                    BodyMassIndex = 22.5,
+                    Recommendation = "рекомендация 1"
+                },
+                new BodyMassIndexCalculation
+                {
+                    UserId = Guid.Parse("1"),
+                    CreatedAt = DateTime.Now.AddDays(-1),
+                    Height = 180,
+                    Weight = 82,
+                    BodyMassIndex = 24.3,
+                    Recommendation = "рекомендация 2"
+                },
+                new BodyMassIndexCalculation
+                {
+                    UserId = Guid.Parse("1"),
+                    CreatedAt = DateTime.Now.AddDays(-2),
+                    Height = 190,
+                    Weight = 56,
+                    BodyMassIndex = 19.2,
+                    Recommendation = "рекомендация 3"
+                }
+                ] : [];
+            */
         }
 
         private void SetNullProfile()

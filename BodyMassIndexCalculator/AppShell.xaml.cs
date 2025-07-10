@@ -4,20 +4,14 @@ namespace BodyMassIndexCalculator
 {
     public partial class AppShell : Shell
     {
-        public ShellItem MainTabsShellItem => (ShellItem)FindByName("MainTabs");
-        public ShellItem LoginPageShellItem => (ShellItem)FindByName("LoginPage");
-        public ShellItem RegisterPageShellItem => (ShellItem)FindByName("RegisterPage");
-
-        public AppShell(AuthService authService)
+        public AppShell()
         {
             InitializeComponent();
 
             SetNavBarIsVisible(this, false);
 
-            if (authService.CurrentSession != null)
-            {
-                CurrentItem = MainTabsShellItem;
-            }
+            if (SupabaseService.Client.Auth.CurrentUser != null)
+                CurrentItem = (ShellItem)FindByName("MainTabs");
         }
     }
 }

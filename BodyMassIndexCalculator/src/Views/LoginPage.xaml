@@ -7,9 +7,7 @@
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     <ScrollView>
         <StackLayout Padding="30" Spacing="30" VerticalOptions="Center">
-            <StackLayout Spacing="15" HorizontalOptions="Center">
-                <Label Text="Вход в приложение" Style="{DynamicResource SignLabelStyle}"/>
-            </StackLayout>
+            <Label Text="Вход в приложение" Style="{DynamicResource PageLabelStyle}"/>
             <Border Style="{StaticResource CardStyle}">
                 <StackLayout Spacing="20" Padding="20">
                     <StackLayout>

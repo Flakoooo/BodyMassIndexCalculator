@@ -31,15 +31,13 @@ namespace BodyMassIndexCalculator.src.ViewModels
 
     public partial class CalculatorViewModel : ObservableObject
     {
-        private readonly AuthService _authService;
         private readonly IAPI _api;
 
         [ObservableProperty]
         private CalculatorModel _calculatorModel;
 
-        public CalculatorViewModel(AuthService authService, IAPI api) 
+        public CalculatorViewModel(IAPI api) 
         {
-            _authService = authService;
             _api = api;
             CalculatorModel = new CalculatorModel
             {
@@ -80,7 +78,7 @@ namespace BodyMassIndexCalculator.src.ViewModels
                 CalculatorModel.Result = index.ToString();
                 CalculatorModel.Recommendation = GetRecommendation(index);
 
-                var id = _authService.CurrentSession?.User?.Id;
+                var id = SupabaseService.Client.Auth.CurrentUser?.Id;
                 if (id != null)
                 {
                     await _api.CreateCalculation(Guid.Parse(id), height, weight, index, CalculatorModel.Recommendation);

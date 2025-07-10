@@ -24,15 +24,13 @@ namespace BodyMassIndexCalculator.src.ViewModels
     public partial class LoginViewModel : ObservableObject
     {
         private readonly INavigationService _navigationService;
-        private readonly AuthService _authService;
 
         [ObservableProperty]
         private LoginModel _loginModel;
 
-        public LoginViewModel(INavigationService navigationService, AuthService authService)
+        public LoginViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            _authService = authService;
             LoginModel = new LoginModel
             {
                 ErrorText = string.Empty,
@@ -58,7 +56,7 @@ namespace BodyMassIndexCalculator.src.ViewModels
                 return;
             }
 
-            var (result, error) = await _authService.SignIn(LoginModel.Email, LoginModel.Password);
+            var (result, error) = await AuthService.SignIn(LoginModel.Email, LoginModel.Password);
             if (result == null) SetErrorText(error, true);
             else
             {

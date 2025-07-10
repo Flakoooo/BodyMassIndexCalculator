@@ -6,6 +6,7 @@ namespace BodyMassIndexCalculator.src.Converters
     {
         private const string _today = "Сегодня, ";
         private const string _yesterday = "Вчера, ";
+
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is not DateTime date) return value;

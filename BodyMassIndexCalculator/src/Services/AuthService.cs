@@ -6,26 +6,11 @@ namespace BodyMassIndexCalculator.src.Services
 {
     public class AuthService
     {
-        private static Session? _currentSession;
-
-        public event EventHandler? SessionUpdated;
-
-        public Session? CurrentSession
-        {
-            get => _currentSession;
-            private set
-            {
-                _currentSession = value;
-                SessionUpdated?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        public async Task<(Session? Session, string? Error)> SignIn(string email, string password)
+        public static async Task<(Session? Session, string? Error)> SignIn(string email, string password)
         {
             try
             {
-                var response = await SupabaseService.Client.Auth.SignIn(email, password);
-                CurrentSession = response;
+                Session? response = await SupabaseService.Client.Auth.SignIn(email, password);
                 return (response, null);
             }
             catch (GotrueException gex)
@@ -39,7 +24,7 @@ namespace BodyMassIndexCalculator.src.Services
             }
         }
 
-        public async Task<(Session? Session, string? Error)> SignUp(string firstName, string lastName, string email, string password)
+        public static async Task<(Session? Session, string? Error)> SignUp(string firstName, string lastName, string email, string password)
         {
             try
             {
@@ -48,7 +33,6 @@ namespace BodyMassIndexCalculator.src.Services
                     return (null, "Не удалось создать аккаунт");
 
                 var signInResponse = await SupabaseService.Client.Auth.SignIn(email, password);
-                CurrentSession = signInResponse;
                 if (signInResponse?.User?.Id == null)
                     return (null, "Произошла непредвиденная ошибка");
 
@@ -98,7 +82,6 @@ namespace BodyMassIndexCalculator.src.Services
                 };
             }
 
-            // Если статуса нет, анализируем сообщение
             return "Произошла непредвиденная ошибка";
         }
     }

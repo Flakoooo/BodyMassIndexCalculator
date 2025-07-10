@@ -29,15 +29,13 @@ namespace BodyMassIndexCalculator.src.ViewModels
     public partial class RegisterViewModel : ObservableObject
     {
         private readonly INavigationService _navigationService;
-        private readonly AuthService _authService;
 
         [ObservableProperty]
         private RegisterModel _registerModel;
 
-        public RegisterViewModel(INavigationService navigationService, AuthService authService)
+        public RegisterViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            _authService = authService;
             RegisterModel = new RegisterModel
             {
                 ErrorText = string.Empty,
@@ -74,7 +72,7 @@ namespace BodyMassIndexCalculator.src.ViewModels
                 return;
             }
 
-            var (result, error) = await _authService.SignUp(
+            var (result, error) = await AuthService.SignUp(
                 RegisterModel.FirstName, 
                 RegisterModel.LastName, 
                 RegisterModel.Email, 
