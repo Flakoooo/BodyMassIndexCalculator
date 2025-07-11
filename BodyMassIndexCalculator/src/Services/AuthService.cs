@@ -1,6 +1,7 @@
 ﻿using BodyMassIndexCalculator.src.Models;
 using Supabase.Gotrue;
 using Supabase.Gotrue.Exceptions;
+using Supabase.Postgrest.Responses;
 
 namespace BodyMassIndexCalculator.src.Services
 {
@@ -29,16 +30,18 @@ namespace BodyMassIndexCalculator.src.Services
             try
             {
                 var signUpResponse = await SupabaseService.Client.Auth.SignUp(email, password);
-                if (signUpResponse?.User?.Id == null)
+                if (signUpResponse == null)
                     return (null, "Не удалось создать аккаунт");
 
                 var signInResponse = await SupabaseService.Client.Auth.SignIn(email, password);
-                if (signInResponse?.User?.Id == null)
-                    return (null, "Произошла непредвиденная ошибка");
+                string? userId = signInResponse?.User?.Id;
+                if (userId == null) return (null, "Аккаунт не создан");
 
-                var saveProfileResponse = await SaveUserProfile(Guid.Parse(signInResponse.User.Id), firstName, lastName);
-                if (saveProfileResponse != null)
-                    return (null, "Произошла непредвиденная ошибка");
+                ModeledResponse<Profile> saveProfileResponse = await SupabaseService.Client
+                    .From<Profile>()
+                    .Insert(new Profile { UserId = Guid.Parse(userId), FirstName = firstName, LastName = lastName });
+                if (saveProfileResponse == null)
+                    return (null, "Произошла ошибка при регистрации");
 
                 return (signUpResponse, null);
             }
@@ -51,20 +54,6 @@ namespace BodyMassIndexCalculator.src.Services
             {
                 return (null, "Произошла непредвиденная ошибка");
             }
-        }
-
-        private static async Task<string?> SaveUserProfile(Guid userId, string firstName, string lastName)
-        {
-            await SupabaseService.Client
-                .From<Profile>()
-                .Insert(new Profile
-                {
-                    UserId = userId,
-                    FirstName = firstName,
-                    LastName = lastName
-                });
-
-            return null;
         }
 
         private static string GetUserFriendlyError(GotrueException gex)

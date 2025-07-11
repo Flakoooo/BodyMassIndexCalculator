@@ -47,7 +47,7 @@
                                     <Label Text="Время расчёта" Style="{StaticResource IndicatorLabelStyle}"/>
                                     <Label Text="{Binding CreatedAt, Converter={StaticResource DateConverter}}" Style="{StaticResource ValueLabelStyle}"/>
                                 </StackLayout>
-                                <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto">
+                                <Grid ColumnDefinitions="1*,1*,2*" RowDefinitions="Auto">
                                     <StackLayout Grid.Column="0">
                                         <Label Text="Рост" Style="{StaticResource IndicatorLabelStyle}"/>
                                         <Label Text="{Binding Height}" Style="{StaticResource ValueLabelStyle}"/>
