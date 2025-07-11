@@ -51,13 +51,13 @@ namespace BodyMassIndexCalculator.src.ViewModels
 
         private async Task InitializeData()
         {
+            LoadProfileDataAsync();
             await Task.WhenAll(
-                LoadProfileDataAsync(),
                 LoadCalculationsDataAsync()
             );
         }
 
-        private async Task LoadProfileDataAsync()
+        private void LoadProfileDataAsync()
         {
             var user = SupabaseService.Client.Auth.CurrentUser;
             if (user == null)
@@ -66,25 +66,12 @@ namespace BodyMassIndexCalculator.src.ViewModels
                 return;
             }
 
-            var profile = await GetUserProfileAsync(user.Id);
-            ProfileModel.Name = profile != null ? $"{profile.FirstName} {profile.LastName}"
-                                   : "null null";
+            var metadata = user.UserMetadata;
+            string? firstName = metadata?["first_name"]?.ToString();
+            string? lastName = metadata?["last_name"]?.ToString();
 
+            ProfileModel.Name = $"{firstName} {lastName}";
             ProfileModel.Email = user.Email ?? "null";
-
-            /*
-            var profile = await GetUserProfileAsync("1");
-            ProfileModel.Name = profile != null ? $"{profile.FirstName} {profile.LastName}"
-                                   : "null null";
-
-            ProfileModel.Email = "email" ?? "null";
-            */
-        }
-
-        private async Task<Profile?> GetUserProfileAsync(string? userId)
-        {
-            if (userId == null) return null;
-            return await _api.GetProfileByUserId(Guid.Parse(userId));
         }
 
         private async Task LoadCalculationsDataAsync()

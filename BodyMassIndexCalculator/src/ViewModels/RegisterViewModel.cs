@@ -78,7 +78,7 @@ namespace BodyMassIndexCalculator.src.ViewModels
                 RegisterModel.Email, 
                 RegisterModel.Password);
 
-            if (result != null) await _navigationService.GoToMainTabsAsync();
+            if (result != null) await GoToLogin();
             else
             {
                 SetErrorText(error, true);

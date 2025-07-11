@@ -1,7 +1,5 @@
-﻿using BodyMassIndexCalculator.src.Models;
-using Supabase.Gotrue;
+﻿using Supabase.Gotrue;
 using Supabase.Gotrue.Exceptions;
-using Supabase.Postgrest.Responses;
 
 namespace BodyMassIndexCalculator.src.Services
 {
@@ -29,19 +27,21 @@ namespace BodyMassIndexCalculator.src.Services
         {
             try
             {
-                var signUpResponse = await SupabaseService.Client.Auth.SignUp(email, password);
+                var signUpResponse = await SupabaseService.Client.Auth.SignUp(
+                    Constants.SignUpType.Email, 
+                    email, 
+                    password,
+                    new SignUpOptions
+                    {
+                        Data = new Dictionary<string, object>
+                        {
+                            { "first_name", firstName },
+                            { "last_name", lastName }
+                        }
+                    });
+
                 if (signUpResponse == null)
                     return (null, "Не удалось создать аккаунт");
-
-                var signInResponse = await SupabaseService.Client.Auth.SignIn(email, password);
-                string? userId = signInResponse?.User?.Id;
-                if (userId == null) return (null, "Аккаунт не создан");
-
-                ModeledResponse<Profile> saveProfileResponse = await SupabaseService.Client
-                    .From<Profile>()
-                    .Insert(new Profile { UserId = Guid.Parse(userId), FirstName = firstName, LastName = lastName });
-                if (saveProfileResponse == null)
-                    return (null, "Произошла ошибка при регистрации");
 
                 return (signUpResponse, null);
             }

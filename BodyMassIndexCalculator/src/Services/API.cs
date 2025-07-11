@@ -5,16 +5,6 @@ namespace BodyMassIndexCalculator.src.Services
 {
     public class API : IAPI
     {
-        public async Task<Profile?> GetProfileByUserId(Guid userId)
-        {
-            var response = await SupabaseService.Client
-                .From<Profile>()
-                .Select("first_name, last_name")
-                .Where(p => p.UserId == userId)
-                .Single();
-
-            return response;
-        }
         public async Task<IEnumerable<BodyMassIndexCalculation>> GetCalculationsByUserId(Guid userId)
         {
             var response = await SupabaseService.Client
