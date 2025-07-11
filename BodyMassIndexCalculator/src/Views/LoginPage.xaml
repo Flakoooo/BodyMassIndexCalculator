@@ -24,16 +24,12 @@
                                Text="{Binding LoginModel.Password}"
                                Style="{StaticResource EntryStyle}"/>
                     </StackLayout>
-                    <Label HorizontalOptions="Center">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Зарегистрироваться" Style="{StaticResource ClickableSpanStyle}">
-                                    <Span.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
-                                    </Span.GestureRecognizers>
-                                </Span>
-                            </FormattedString>
-                        </Label.FormattedText>
+                    <Label Text="Зарегистрироваться" 
+                           Style="{StaticResource ClickableLabelStyle}"
+                           HorizontalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
+                        </Label.GestureRecognizers>
                     </Label>
                 </StackLayout>
             </Border>

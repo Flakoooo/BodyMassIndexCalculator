@@ -72,5 +72,7 @@ namespace BodyMassIndexCalculator.src.ViewModels
 
         [RelayCommand]
         private async Task GoToRegister() => await _navigationService.GoToRegisterAsync();
+
+        //private async Task GoToRegister() => await Task.CompletedTask;
     }
 }

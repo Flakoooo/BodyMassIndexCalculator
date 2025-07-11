@@ -25,7 +25,7 @@
                 <Setter Property="HorizontalOptions" Value="Center"/>
             </Style>
 
-            <Style x:Key="ClickableSpanStyle" TargetType="Span">
+            <Style x:Key="ClickableLabelStyle" TargetType="Label">
                 <Setter Property="FontSize" Value="16"/>
                 <Setter Property="TextDecorations" Value="None"/>
                 <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>

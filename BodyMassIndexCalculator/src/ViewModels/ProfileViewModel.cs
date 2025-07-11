@@ -36,7 +36,17 @@ namespace BodyMassIndexCalculator.src.ViewModels
                 Email = string.Empty,
                 BodyMassIndexCalculations = []
             };
-            _ = InitializeData();
+            //SetUserData("Имя Фамилия", "Почта");
+            var user = SupabaseService.Client.Auth.CurrentUser;
+            if (user == null) SetUserData();
+            else
+            {
+                var metadata = user.UserMetadata;
+                string? firstName = metadata?["first_name"]?.ToString();
+                string? lastName = metadata?["last_name"]?.ToString();
+                SetUserData($"{firstName} {lastName}", user.Email ?? "null");
+            }
+            _ = LoadCalculationsDataAsync();
         }
 
         [RelayCommand]
@@ -45,33 +55,8 @@ namespace BodyMassIndexCalculator.src.ViewModels
             if ((DateTime.Now - _lastRefreshTime).TotalSeconds < 5)
                 return;
 
-            await InitializeData();
+            await LoadCalculationsDataAsync();
             _lastRefreshTime = DateTime.Now;
-        }
-
-        private async Task InitializeData()
-        {
-            LoadProfileDataAsync();
-            await Task.WhenAll(
-                LoadCalculationsDataAsync()
-            );
-        }
-
-        private void LoadProfileDataAsync()
-        {
-            var user = SupabaseService.Client.Auth.CurrentUser;
-            if (user == null)
-            {
-                SetNullProfile();
-                return;
-            }
-
-            var metadata = user.UserMetadata;
-            string? firstName = metadata?["first_name"]?.ToString();
-            string? lastName = metadata?["last_name"]?.ToString();
-
-            ProfileModel.Name = $"{firstName} {lastName}";
-            ProfileModel.Email = user.Email ?? "null";
         }
 
         private async Task LoadCalculationsDataAsync()
@@ -122,10 +107,10 @@ namespace BodyMassIndexCalculator.src.ViewModels
             */
         }
 
-        private void SetNullProfile()
+        private void SetUserData(string fullName = "null null", string email = "null")
         {
-            ProfileModel.Name = "null null";
-            ProfileModel.Email = "null";
+            ProfileModel.Name = fullName;
+            ProfileModel.Email = email;
         }
     }
 }

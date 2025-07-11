@@ -38,16 +38,12 @@
                                Text="{Binding RegisterModel.Password}"
                                Style="{StaticResource EntryStyle}"/>
                     </StackLayout>
-                    <Label HorizontalOptions="Center">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Вернуться к странице входа" Style="{StaticResource ClickableSpanStyle}">
-                                    <Span.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding GoToLoginCommand}" />
-                                    </Span.GestureRecognizers>
-                                </Span>
-                            </FormattedString>
-                        </Label.FormattedText>
+                    <Label Text="Вернуться к странице входа" 
+                           Style="{StaticResource ClickableLabelStyle}"
+                           HorizontalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoToLoginCommand}" />
+                        </Label.GestureRecognizers>
                     </Label>
                 </StackLayout>
             </Border>
