@@ -27,7 +27,7 @@ namespace BodyMassIndexCalculator.src.Services
         {
             try
             {
-                var signUpResponse = await SupabaseService.Client.Auth.SignUp(
+                Session? signUpResponse = await SupabaseService.Client.Auth.SignUp(
                     Constants.SignUpType.Email, 
                     email, 
                     password,

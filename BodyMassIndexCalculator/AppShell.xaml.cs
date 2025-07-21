@@ -9,9 +9,6 @@ namespace BodyMassIndexCalculator
             InitializeComponent();
 
             SetNavBarIsVisible(this, false);
-
-            if (SupabaseService.Client.Auth.CurrentUser != null)
-                CurrentItem = (ShellItem)FindByName("MainTabs");
         }
     }
 }

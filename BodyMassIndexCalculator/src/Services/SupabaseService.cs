@@ -1,13 +1,56 @@
-﻿using Supabase;
+﻿using Microsoft.Extensions.Configuration;
+using Supabase;
+using System.IO;
+using System.Reflection;
 
 namespace BodyMassIndexCalculator.src.Services
 {
     public static class SupabaseService
     {
-        private static readonly string SupabaseUrl = "https://seivcpxkjsesvasrrawq.supabase.co";
-        private static readonly string SupabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNlaXZjcHhranNlc3Zhc3JyYXdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA5MzMxNzMsImV4cCI6MjA2NjUwOTE3M30.pgaHPlPBqP5dvgcU4ZnL6d3Xvolw6bRhJqitMiVoqoc";
+        private const string ConfigFileName = "appsettings.json";
 
-        public static Client Client { get; } = new Client(SupabaseUrl, SupabaseKey);
+        private static Stream LoadConfigFile()
+        {
+            if (DeviceInfo.Platform == DevicePlatform.WinUI)
+            {
+                var appdata = FileSystem.AppDataDirectory;
+                var configPath = Path.Combine(appdata, ConfigFileName);
+                if (File.Exists(configPath))
+                    return File.OpenRead(configPath);
+                return Stream.Null;
+            }
+
+            var assembly = Assembly.GetExecutingAssembly();
+            return assembly.GetManifestResourceStream($"BodyMassIndexCalculator.{ConfigFileName}") ?? Stream.Null;
+        }
+
+        private static string GetSupabaseUrl()
+        {
+            using var stream = LoadConfigFile();
+            if (stream == Stream.Null)
+                throw new FileNotFoundException("Конфигурационный файл не найден");
+
+            var config = new ConfigurationBuilder()
+                .AddJsonStream(stream)
+                .Build();
+
+            return config["Supabase:Url"] ?? "";
+        }
+
+        private static string GetSupabaseKey()
+        {
+            using var stream = LoadConfigFile();
+            if (stream == Stream.Null)
+                throw new FileNotFoundException("Конфигурационный файл не найден");
+
+            var config = new ConfigurationBuilder()
+                .AddJsonStream(stream)
+                .Build();
+
+            return config["Supabase:AnonKey"] ?? "";
+        }
+
+        public static Client Client { get; } = new Client(GetSupabaseUrl(), GetSupabaseKey());
 
         public static async Task Initialize() => await Client.InitializeAsync();
     }

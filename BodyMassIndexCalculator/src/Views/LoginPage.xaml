@@ -8,24 +8,24 @@
     <ScrollView>
         <StackLayout Padding="30" Spacing="30" VerticalOptions="Center">
             <Label Text="Вход в приложение" Style="{DynamicResource PageLabelStyle}"/>
-            <Border Style="{StaticResource CardStyle}">
+            <Border Style="{DynamicResource CardStyle}">
                 <StackLayout Spacing="20" Padding="20">
                     <StackLayout>
-                        <Label Text="Email" Style="{StaticResource InputLabelStyle}"/>
+                        <Label Text="Email" Style="{DynamicResource InputLabelStyle}"/>
                         <Entry Placeholder="user@example.com" 
                                Keyboard="Email"
                                Text="{Binding LoginModel.Email}"
-                               Style="{StaticResource EntryStyle}"/>
+                               Style="{DynamicResource EntryStyle}"/>
                     </StackLayout>
                     <StackLayout>
-                        <Label Text="Пароль" Style="{StaticResource InputLabelStyle}"/>
+                        <Label Text="Пароль" Style="{DynamicResource InputLabelStyle}"/>
                         <Entry Placeholder="Введите пароль" 
                                IsPassword="True"
                                Text="{Binding LoginModel.Password}"
-                               Style="{StaticResource EntryStyle}"/>
+                               Style="{DynamicResource EntryStyle}"/>
                     </StackLayout>
                     <Label Text="Зарегистрироваться" 
-                           Style="{StaticResource ClickableLabelStyle}"
+                           Style="{DynamicResource ClickableLabelStyle}"
                            HorizontalOptions="Center">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
@@ -35,10 +35,10 @@
             </Border>
             <Button Text="ВОЙТИ" 
                     Command="{Binding LoginCommand}"
-                    Style="{StaticResource PrimaryButtonStyle}"/>
+                    Style="{DynamicResource PrimaryButtonStyle}"/>
             <Label Text="{Binding LoginModel.ErrorText}"
                    IsVisible="{Binding LoginModel.IsErrorVisible}"
-                   Style="{StaticResource ErrorLabelStyle}"/>
+                   Style="{DynamicResource ErrorLabelStyle}"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

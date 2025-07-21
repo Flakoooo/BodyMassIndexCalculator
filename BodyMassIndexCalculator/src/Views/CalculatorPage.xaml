@@ -7,37 +7,49 @@
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     <ScrollView>
         <StackLayout Padding="20" Spacing="25">
-            <Label Text="Калькулятор индекса массы тела" Style="{StaticResource PageLabelStyle}"/>
-            <Border Style="{StaticResource CardStyle}">
+            <Label Text="Калькулятор индекса массы тела" 
+                   HorizontalTextAlignment="Center" 
+                   LineBreakMode="WordWrap" 
+                   Style="{DynamicResource PageLabelStyle}"/>
+            <Border Style="{DynamicResource CardStyle}">
                 <StackLayout Padding="15" Spacing="20">
-                    <Label Text="Персональные данные" Style="{StaticResource SectionHeaderStyle}"/>
+                    <Label Text="Персональные данные" 
+                           Style="{DynamicResource SectionHeaderStyle}"/>
                     <StackLayout>
-                        <Label Text="Рост (см)" Style="{StaticResource InputLabelStyle}"/>
+                        <Label Text="Рост (см)" 
+                               Style="{DynamicResource InputLabelStyle}"/>
                         <Entry Placeholder="175" 
                                Keyboard="Numeric"
                                Text="{Binding CalculatorModel.Height}"
-                               Style="{StaticResource EntryStyle}"/>
+                               Style="{DynamicResource EntryStyle}"/>
                     </StackLayout>
                     <StackLayout>
-                        <Label Text="Вес (кг)" Style="{StaticResource InputLabelStyle}"/>
+                        <Label Text="Вес (кг)" 
+                               Style="{DynamicResource InputLabelStyle}"/>
                         <Entry Placeholder="70" 
                                Keyboard="Numeric"
                                Text="{Binding CalculatorModel.Weight}"
-                               Style="{StaticResource EntryStyle}"/>
+                               Style="{DynamicResource EntryStyle}"/>
                     </StackLayout>
                 </StackLayout>
             </Border>
             <Button Text="РАССЧИТАТЬ" 
                     Command="{Binding CalculateCommand}"
-                    Style="{StaticResource PrimaryButtonStyle}"/>
+                    Style="{DynamicResource PrimaryButtonStyle}"/>
             <Label Text="{Binding CalculatorModel.ErrorText}"
                    IsVisible="{Binding CalculatorModel.IsErrorVisible}"
-                   Style="{StaticResource ErrorLabelStyle}"/>
-            <Border IsVisible="{Binding CalculatorModel.IsResultVisible}" Style="{StaticResource ResultCardStyle}">
+                   Style="{DynamicResource ErrorLabelStyle}"/>
+            <Border IsVisible="{Binding CalculatorModel.IsResultVisible}" 
+                    Style="{DynamicResource ResultCardStyle}">
                 <StackLayout Spacing="8" Padding="15">
-                    <Label Text="Ваш индекс массы тела:" Style="{StaticResource ResultHeaderStyle}"/>
-                    <Label Text="{Binding CalculatorModel.Result}" Style="{StaticResource ResultValueStyle}"/>
-                    <Label Text="{Binding CalculatorModel.Recommendation}" Style="{StaticResource ResultDescriptionStyle}"/>
+                    <Label Text="Ваш индекс массы тела:" 
+                           Style="{DynamicResource ResultHeaderStyle}"/>
+                    <Label Text="{Binding CalculatorModel.Result}" 
+                           Style="{DynamicResource ResultValueStyle}"/>
+                    <Label Text="{Binding CalculatorModel.Recommendation}" 
+                           HorizontalTextAlignment="Center" 
+                           LineBreakMode="WordWrap" 
+                           Style="{DynamicResource ResultDescriptionStyle}"/>
                 </StackLayout>
             </Border>
         </StackLayout>

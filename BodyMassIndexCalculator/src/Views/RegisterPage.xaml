@@ -8,38 +8,38 @@
     <ScrollView>
         <StackLayout Padding="30" Spacing="30" VerticalOptions="Center">
             <Label Text="Регистрация" Style="{DynamicResource PageLabelStyle}"/>
-            <Border Style="{StaticResource CardStyle}">
+            <Border Style="{DynamicResource CardStyle}">
                 <StackLayout Spacing="20" Padding="20">
                     <StackLayout>
-                        <Label Text="Имя" Style="{StaticResource InputLabelStyle}"/>
+                        <Label Text="Имя" Style="{DynamicResource InputLabelStyle}"/>
                         <Entry Placeholder="Введите имя" 
                                Keyboard="Default"
                                Text="{Binding RegisterModel.FirstName}"
-                               Style="{StaticResource EntryStyle}"/>
+                               Style="{DynamicResource EntryStyle}"/>
                     </StackLayout>
                     <StackLayout>
-                        <Label Text="Фамилия" Style="{StaticResource InputLabelStyle}"/>
+                        <Label Text="Фамилия" Style="{DynamicResource InputLabelStyle}"/>
                         <Entry Placeholder="Введите фамилию" 
                                Keyboard="Default"
                                Text="{Binding RegisterModel.LastName}"
-                               Style="{StaticResource EntryStyle}"/>
+                               Style="{DynamicResource EntryStyle}"/>
                     </StackLayout>
                     <StackLayout>
-                        <Label Text="Email" Style="{StaticResource InputLabelStyle}"/>
+                        <Label Text="Email" Style="{DynamicResource InputLabelStyle}"/>
                         <Entry Placeholder="user@example.com" 
                                Keyboard="Email"
                                Text="{Binding RegisterModel.Email}"
-                               Style="{StaticResource EntryStyle}"/>
+                               Style="{DynamicResource EntryStyle}"/>
                     </StackLayout>
                     <StackLayout>
-                        <Label Text="Пароль" Style="{StaticResource InputLabelStyle}"/>
+                        <Label Text="Пароль" Style="{DynamicResource InputLabelStyle}"/>
                         <Entry Placeholder="Введите пароль" 
                                IsPassword="True"
                                Text="{Binding RegisterModel.Password}"
-                               Style="{StaticResource EntryStyle}"/>
+                               Style="{DynamicResource EntryStyle}"/>
                     </StackLayout>
                     <Label Text="Вернуться к странице входа" 
-                           Style="{StaticResource ClickableLabelStyle}"
+                           Style="{DynamicResource ClickableLabelStyle}"
                            HorizontalOptions="Center">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding GoToLoginCommand}" />
@@ -49,10 +49,10 @@
             </Border>
             <Button Text="СОЗДАТЬ АККАУНТ" 
                     Command="{Binding RegisterCommand}"
-                    Style="{StaticResource PrimaryButtonStyle}"/>
+                    Style="{DynamicResource PrimaryButtonStyle}"/>
             <Label Text="{Binding RegisterModel.ErrorText}"
                    IsVisible="{Binding RegisterModel.IsErrorVisible}"
-                   Style="{StaticResource ErrorLabelStyle}"/>
+                   Style="{DynamicResource ErrorLabelStyle}"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>
