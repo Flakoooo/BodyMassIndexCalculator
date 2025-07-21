@@ -17,6 +17,21 @@
                 <Setter Property="Shell.TabBarForegroundColor" Value="{DynamicResource InterfaceColor}"/>
                 <Setter Property="Shell.TabBarBackgroundColor" Value="{DynamicResource InterfaceColor}"/>
             </Style>
+            
+            <!-- Base стили -->
+
+            <Style x:Key="Label14Base" TargetType="Label">
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+
+            <Style x:Key="Label16Base" TargetType="Label">
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+            <Style x:Key="PrimaryLabel16Base" TargetType="Label" BasedOn="{StaticResource Label16Base}">
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
+            </Style>
+
+            <!-- Label стили -->
 
             <Style x:Key="PageLabelStyle" TargetType="Label">
                 <Setter Property="HorizontalOptions" Value="Center"/>
@@ -25,27 +40,46 @@
                 <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
             </Style>
 
-            <Style x:Key="ClickableLabelStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="16"/>
+            <Style x:Key="ClickableLabelStyle" TargetType="Label" BasedOn="{StaticResource PrimaryLabel16Base}">
                 <Setter Property="TextDecorations" Value="None"/>
+            </Style>
+
+            <Style x:Key="PrimaryLabel16" TargetType="Label" BasedOn="{StaticResource PrimaryLabel16Base}">
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+
+            <Style x:Key="ResultValueStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="28"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
             </Style>
 
-            <Style x:Key="PrimaryButtonStyle" TargetType="Button">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="CornerRadius" Value="10"/>
-                <Setter Property="HeightRequest" Value="50"/>
-                <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}"/>
-                <Setter Property="TextColor" Value="{DynamicResource InterfaceColor}"/>
-            </Style>
-
-            <Style x:Key="ErrorLabelStyle" TargetType="Label">
+            <Style x:Key="ErrorLabelStyle" TargetType="Label" BasedOn="{StaticResource Label14Base}">
                 <Setter Property="HorizontalOptions" Value="Center"/>
-                <Setter Property="FontSize" Value="14"/>
                 <Setter Property="Margin" Value="0,10"/>
                 <Setter Property="TextColor" Value="{DynamicResource ErrorTextColor}"/>
             </Style>
+
+            <Style x:Key="ResultDescriptionStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
+            </Style>
+
+            <Style x:Key="SecondaryLabel14" TargetType="Label" BasedOn="{StaticResource Label14Base}">
+                <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
+            </Style>
+            <Style x:Key="SecondaryLabel14Center" TargetType="Label" BasedOn="{StaticResource SecondaryLabel14}">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="ValueLabelStyle" TargetType="Label" BasedOn="{StaticResource Label16Base}">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
+            </Style>
+
+            <!-- Border стили -->
 
             <Style x:Key="CardStyle" TargetType="Border">
                 <Setter Property="StrokeThickness" Value="0"/>
@@ -57,15 +91,20 @@
                 <Setter Property="BackgroundColor" Value="{DynamicResource InterfaceColor}"/>
             </Style>
 
-            <Style x:Key="SectionHeaderStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
+            <Style x:Key="ResultCardStyle" TargetType="Border" BasedOn="{StaticResource CardStyle}">
+                <Setter Property="HorizontalOptions" Value="Fill"/>
+                <Setter Property="BackgroundColor" Value="#E8F5E9"/>
             </Style>
 
-            <Style x:Key="InputLabelStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
+            <!-- Прочие стили -->
+
+            <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}"/>
+                <Setter Property="TextColor" Value="{DynamicResource InterfaceColor}"/>
             </Style>
 
             <Style x:Key="EntryStyle" TargetType="Entry">
@@ -73,47 +112,6 @@
                 <Setter Property="FontSize" Value="14"/>
                 <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
                 <Setter Property="PlaceholderColor" Value="{DynamicResource SecondaryTextColor}"/>
-            </Style>
-
-            <Style x:Key="ResultCardStyle" TargetType="Border" BasedOn="{StaticResource CardStyle}">
-                <Setter Property="HorizontalOptions" Value="Fill"/>
-                <Setter Property="BackgroundColor" Value="#E8F5E9"/>
-            </Style>
-
-            <Style x:Key="ResultHeaderStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
-            </Style>
-
-            <Style x:Key="ResultValueStyle" TargetType="Label">
-                <Setter Property="HorizontalOptions" Value="Center"/>
-                <Setter Property="FontSize" Value="28"/>
-                <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="TextColor" Value="{DynamicResource PrimaryColor}"/>
-            </Style>
-
-            <Style x:Key="ResultDescriptionStyle" TargetType="Label">
-                <Setter Property="HorizontalOptions" Value="Center"/>
-                <Setter Property="FontSize" Value="12"/>
-                <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
-            </Style>
-
-            <Style x:Key="SecondaryLabelStyle" TargetType="Label">
-                <Setter Property="HorizontalOptions" Value="Center"/>
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
-            </Style>
-
-            <Style x:Key="IndicatorLabelStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
-            </Style>
-
-            <Style x:Key="ValueLabelStyle" TargetType="Label">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

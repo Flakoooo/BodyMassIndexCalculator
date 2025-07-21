@@ -11,9 +11,6 @@ namespace BodyMassIndexCalculator.src.ViewModels
         private string? _errorText;
 
         [ObservableProperty]
-        private bool _isErrorVisible;
-
-        [ObservableProperty]
         private bool _isResultVisible;
 
         [ObservableProperty]
@@ -41,7 +38,6 @@ namespace BodyMassIndexCalculator.src.ViewModels
             _api = api;
             CalculatorModel = new CalculatorModel
             {
-                IsErrorVisible = false,
                 ErrorText = string.Empty,
                 IsResultVisible = false,
                 Result = string.Empty,
@@ -54,61 +50,50 @@ namespace BodyMassIndexCalculator.src.ViewModels
         [RelayCommand]
         private async Task Calculate()
         {
-            if (string.IsNullOrWhiteSpace(CalculatorModel.Height) || 
-                string.IsNullOrWhiteSpace(CalculatorModel.Weight))
-            {
-                if (string.IsNullOrWhiteSpace(CalculatorModel.Height) && 
-                    string.IsNullOrWhiteSpace(CalculatorModel.Weight))
-                    CalculatorModel.ErrorText = "Заполните все поля!";
-                else if (string.IsNullOrWhiteSpace(CalculatorModel.Height) && 
-                         !string.IsNullOrWhiteSpace(CalculatorModel.Weight))
-                    CalculatorModel.ErrorText = "Поле Рост не заполнено!";
-                else if (!string.IsNullOrWhiteSpace(CalculatorModel.Height) && 
-                         string.IsNullOrWhiteSpace(CalculatorModel.Weight))
-                    CalculatorModel.ErrorText = "Поле Вес не заполнено!";
+            CalculatorModel.ErrorText = string.Empty;
 
-                CalculatorModel.IsErrorVisible = true;
+            bool heightEmpty = string.IsNullOrWhiteSpace(CalculatorModel.Height);
+            bool weightEmpty = string.IsNullOrWhiteSpace(CalculatorModel.Weight);
+
+            if (heightEmpty || weightEmpty)
+            {
+                CalculatorModel.ErrorText = (heightEmpty, weightEmpty) switch
+                {
+                    (true, true) => "Заполните все поля!",
+                    (true, false) => "Поле Рост не заполнено!",
+                    (false, true) => "Поле Вес не заполнено!",
+                    _ => string.Empty
+                };
+                CalculatorModel.IsResultVisible = false;
                 return;
             }
 
-            if (int.TryParse(CalculatorModel.Height, out int height) && 
+            if (int.TryParse(CalculatorModel.Height, out int height) &&
                 int.TryParse(CalculatorModel.Weight, out int weight))
             {
                 double index = Math.Round(weight / Math.Pow((double)height / 100, 2), 2);
-                CalculatorModel.Result = index.ToString();
-                CalculatorModel.Recommendation = GetRecommendation(index);
+                string recommendation = GetRecommendation(index);
 
                 var id = SupabaseService.Client.Auth.CurrentUser?.Id;
                 if (id != null)
-                {
-                    await _api.CreateCalculation(Guid.Parse(id), height, weight, index, CalculatorModel.Recommendation);
-                }
-                CalculatorModel.IsErrorVisible = false;
-                CalculatorModel.ErrorText = string.Empty;
+                    await _api.CreateCalculation(Guid.Parse(id), height, weight, index, recommendation);
 
-                CalculatorModel.IsResultVisible = true;
+                (CalculatorModel.Result, 
+                    CalculatorModel.Recommendation, 
+                    CalculatorModel.IsResultVisible) = (index.ToString(), recommendation, true);
             }
             return;
         }
 
-        private static string GetRecommendation(double index)
+        private static string GetRecommendation(double index) => index switch
         {
-            if (index <= 16.0)
-                return "Выраженный дефицит массы тела. Советуем набрать вес для здоровья.";
-            else if (index > 16.0 && index <= 18.5)
-                return "Недостаточная масса тела. Рекомендуется увеличить массу тела.";
-            else if (index > 18.5 && index <= 24.99)
-                return "Норма. Ваш вес в здоровом диапазоне — поддерживайте его!";
-            else if (index > 24.99 && index <= 30.0)
-                return "Избыточная масса тела или предожирение. Желательно снизить вес для улучшения самочувствия.";
-            else if (index > 30.0 && index <= 35.0)
-                return "Ожирение. Рекомендуется уменьшить вес под контролем специалиста.";
-            else if (index > 35.0 && index <= 40.0)
-                return "Ожирение резкое. Необходимо снижение веса с медицинской поддержкой.";
-            else if (index > 40.0)
-                return "Очень резкое ожирение. Требуется срочная коррекция веса под наблюдением врача.";
-
-            return "";
-        }
+            <= 16.0 => "Выраженный дефицит массы тела. Советуем набрать вес для здоровья.",
+            <= 18.5 => "Недостаточная масса тела. Рекомендуется увеличить массу тела.",
+            <= 24.99 => "Норма. Ваш вес в здоровом диапазоне — поддерживайте его!",
+            <= 30.0 => "Избыточная масса тела или предожирение. Желательно снизить вес для улучшения самочувствия.",
+            <= 35.0 => "Ожирение. Рекомендуется уменьшить вес под контролем специалиста.",
+            <= 40.0 => "Ожирение резкое. Необходимо снижение веса с медицинской поддержкой.",
+            _ => "Очень резкое ожирение. Требуется срочная коррекция веса под наблюдением врача."
+        };
     }
 }

@@ -12,9 +12,6 @@ namespace BodyMassIndexCalculator.src.ViewModels
         private string? _errorText;
 
         [ObservableProperty]
-        private bool _isErrorVisible;
-
-        [ObservableProperty]
         private string? _email;
 
         [ObservableProperty]
@@ -34,39 +31,37 @@ namespace BodyMassIndexCalculator.src.ViewModels
             LoginModel = new LoginModel
             {
                 ErrorText = string.Empty,
-                IsErrorVisible = false,
                 Email = string.Empty,
                 Password = string.Empty
             };
         }
 
-        private void SetErrorText(string? error, bool visible)
-        {
-            LoginModel.ErrorText = error;
-            LoginModel.IsErrorVisible = visible;
-        }
-
         [RelayCommand]
         private async Task Login()
         {
-            if (string.IsNullOrWhiteSpace(LoginModel.Email) || 
-                string.IsNullOrWhiteSpace(LoginModel.Password))
+            LoginModel.ErrorText = string.Empty;
+
+            bool emailEmpty = string.IsNullOrWhiteSpace(LoginModel.Email);
+            bool passwordEmpty = string.IsNullOrWhiteSpace(LoginModel.Password);
+
+            if (emailEmpty || passwordEmpty)
             {
-                SetErrorText("Заполните все поля!", true);
+                LoginModel.ErrorText = (emailEmpty, passwordEmpty) switch
+                {
+                    (true, true) => "Заполните все поля!",
+                    (false, true) => "Заполните почту!",
+                    (true, false) => "Заполните пароль!",
+                    _ => string.Empty
+                };
                 return;
             }
 
-            var (result, error) = await AuthService.SignIn(LoginModel.Email, LoginModel.Password);
-            if (result == null) SetErrorText(error, true);
+            var (result, error) = await AuthService.SignIn(LoginModel.Email ?? "", LoginModel.Password ?? "");
+            if (result == null) LoginModel.ErrorText = error;
             else
             {
-                if (result.User?.Email == LoginModel.Email)
-                {
-                    LoginModel.IsErrorVisible = false;
-                    await _navigationService.GoToMainTabsAsync();
-                }
-                else
-                    SetErrorText(!error.IsNullOrEmpty() ? error : "Неверный email или пароль!", true);
+                if (result.User?.Email == LoginModel.Email) await _navigationService.GoToMainTabsAsync();
+                else LoginModel.ErrorText = !error.IsNullOrEmpty() ? error : "Неверный email или пароль!";
             }
         }
 

@@ -36,7 +36,6 @@ namespace BodyMassIndexCalculator.src.ViewModels
                 Email = string.Empty,
                 BodyMassIndexCalculations = []
             };
-            //SetUserData("Имя Фамилия", "Почта");
             var user = SupabaseService.Client.Auth.CurrentUser;
             if (user == null) SetUserData();
             else
@@ -107,10 +106,7 @@ namespace BodyMassIndexCalculator.src.ViewModels
             */
         }
 
-        private void SetUserData(string fullName = "null null", string email = "null")
-        {
-            ProfileModel.Name = fullName;
-            ProfileModel.Email = email;
-        }
+        private void SetUserData(string fullName = "null null", string email = "null") 
+            => (ProfileModel.Name, ProfileModel.Email) = (fullName, email);
     }
 }

@@ -56,22 +56,16 @@ namespace BodyMassIndexCalculator.src.Services
             }
         }
 
-        private static string GetUserFriendlyError(GotrueException gex)
-        {
-            if (gex.StatusCode != 0)
+        private static string GetUserFriendlyError(GotrueException gex) => gex.StatusCode == 0 
+            ? "Произошла непредвиденная ошибка"
+            : gex.StatusCode switch
             {
-                return gex.StatusCode switch
-                {
-                    400 => "Некорректные данные",
-                    401 => "Ошибка авторизации",
-                    404 => "Ресурс не найден",
-                    422 => "Данные не могут быть обработаны",
-                    500 => "Ошибка на сервере",
-                    _ => $"Произошла непредвиденная ошибка (код: {gex.StatusCode})"
-                };
-            }
-
-            return "Произошла непредвиденная ошибка";
-        }
+                400 => "Некорректные данные",
+                401 => "Ошибка авторизации",
+                404 => "Ресурс не найден",
+                422 => "Данные не могут быть обработаны",
+                500 => "Ошибка на сервере",
+                _ => $"Произошла непредвиденная ошибка (код: {gex.StatusCode})"
+            };
     }
 }

@@ -11,28 +11,28 @@
             <Border Style="{DynamicResource CardStyle}">
                 <StackLayout Spacing="20" Padding="20">
                     <StackLayout>
-                        <Label Text="Имя" Style="{DynamicResource InputLabelStyle}"/>
+                        <Label Text="Имя" Style="{DynamicResource SecondaryLabel14}"/>
                         <Entry Placeholder="Введите имя" 
                                Keyboard="Default"
                                Text="{Binding RegisterModel.FirstName}"
                                Style="{DynamicResource EntryStyle}"/>
                     </StackLayout>
                     <StackLayout>
-                        <Label Text="Фамилия" Style="{DynamicResource InputLabelStyle}"/>
+                        <Label Text="Фамилия" Style="{DynamicResource SecondaryLabel14}"/>
                         <Entry Placeholder="Введите фамилию" 
                                Keyboard="Default"
                                Text="{Binding RegisterModel.LastName}"
                                Style="{DynamicResource EntryStyle}"/>
                     </StackLayout>
                     <StackLayout>
-                        <Label Text="Email" Style="{DynamicResource InputLabelStyle}"/>
+                        <Label Text="Email" Style="{DynamicResource SecondaryLabel14}"/>
                         <Entry Placeholder="user@example.com" 
                                Keyboard="Email"
                                Text="{Binding RegisterModel.Email}"
                                Style="{DynamicResource EntryStyle}"/>
                     </StackLayout>
                     <StackLayout>
-                        <Label Text="Пароль" Style="{DynamicResource InputLabelStyle}"/>
+                        <Label Text="Пароль" Style="{DynamicResource SecondaryLabel14}"/>
                         <Entry Placeholder="Введите пароль" 
                                IsPassword="True"
                                Text="{Binding RegisterModel.Password}"
@@ -51,7 +51,6 @@
                     Command="{Binding RegisterCommand}"
                     Style="{DynamicResource PrimaryButtonStyle}"/>
             <Label Text="{Binding RegisterModel.ErrorText}"
-                   IsVisible="{Binding RegisterModel.IsErrorVisible}"
                    Style="{DynamicResource ErrorLabelStyle}"/>
         </StackLayout>
     </ScrollView>

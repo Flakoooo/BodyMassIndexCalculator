@@ -30,12 +30,12 @@
                                HorizontalOptions="Center"
                                TextColor="{DynamicResource SecondaryTextColor}"/>
                         <Label Text="{Binding ProfileModel.Email}" 
-                               Style="{DynamicResource SecondaryLabelStyle}"/>
+                               Style="{DynamicResource SecondaryLabel14Center}"/>
                     </StackLayout>
                 </StackLayout>
             </Border>
             <Border Style="{DynamicResource CardStyle}">
-                <Label Text="Активность" Style="{DynamicResource SectionHeaderStyle}"/>
+                <Label Text="Активность" Style="{DynamicResource PrimaryLabel16}"/>
             </Border>
             <CollectionView ItemsSource="{Binding ProfileModel.BodyMassIndexCalculations}" 
                             ItemSizingStrategy="MeasureAllItems">
@@ -47,31 +47,31 @@
                         <Border Style="{DynamicResource CardStyle}">
                             <StackLayout Spacing="10">
                                 <StackLayout>
-                                    <Label Text="Время расчёта" Style="{DynamicResource IndicatorLabelStyle}"/>
+                                    <Label Text="Время расчёта" Style="{DynamicResource SecondaryLabel14}"/>
                                     <Label Text="{Binding CreatedAt, Converter={StaticResource DateConverter}}" 
                                            Style="{DynamicResource ValueLabelStyle}"/>
                                 </StackLayout>
                                 <Grid ColumnDefinitions="1*,1*,2*" RowDefinitions="Auto">
                                     <StackLayout Grid.Column="0">
-                                        <Label Text="Рост" Style="{DynamicResource IndicatorLabelStyle}"/>
+                                        <Label Text="Рост" Style="{DynamicResource SecondaryLabel14}"/>
                                         <Label Text="{Binding Height}" 
                                                Style="{DynamicResource ValueLabelStyle}"/>
                                     </StackLayout>
                                     <StackLayout Grid.Column="1">
-                                        <Label Text="Вес" Style="{DynamicResource IndicatorLabelStyle}"/>
+                                        <Label Text="Вес" Style="{DynamicResource SecondaryLabel14}"/>
                                         <Label Text="{Binding Weight}" 
                                                Style="{DynamicResource ValueLabelStyle}"/>
                                     </StackLayout>
                                     <StackLayout Grid.Column="2">
                                         <Label Text="Индекс массы тела" 
-                                               Style="{DynamicResource IndicatorLabelStyle}"/>
+                                               Style="{DynamicResource SecondaryLabel14}"/>
                                         <Label Text="{Binding BodyMassIndex}" 
                                                Style="{DynamicResource ValueLabelStyle}"/>
                                     </StackLayout>
                                 </Grid>
                                 <StackLayout>
                                     <Label Text="Рекомендация" 
-                                           Style="{DynamicResource IndicatorLabelStyle}"/>
+                                           Style="{DynamicResource SecondaryLabel14}"/>
                                     <Label Text="{Binding Recommendation}" 
                                            Style="{DynamicResource ValueLabelStyle}"/>
                                 </StackLayout>

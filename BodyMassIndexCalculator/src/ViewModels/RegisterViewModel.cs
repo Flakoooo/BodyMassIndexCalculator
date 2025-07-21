@@ -11,9 +11,6 @@ namespace BodyMassIndexCalculator.src.ViewModels
         private string? _errorText;
 
         [ObservableProperty]
-        private bool _isErrorVisible;
-
-        [ObservableProperty]
         private string? _firstName;
 
         [ObservableProperty]
@@ -39,7 +36,6 @@ namespace BodyMassIndexCalculator.src.ViewModels
             RegisterModel = new RegisterModel
             {
                 ErrorText = string.Empty,
-                IsErrorVisible = false,
                 FirstName = string.Empty,
                 LastName = string.Empty,
                 Email = string.Empty,
@@ -48,41 +44,53 @@ namespace BodyMassIndexCalculator.src.ViewModels
             };
         }
 
-        private void SetErrorText(string? error, bool visible)
-        {
-            RegisterModel.ErrorText = error;
-            RegisterModel.IsErrorVisible = visible;
-        }
-
         [RelayCommand]
         private async Task Register()
         {
-            if (string.IsNullOrWhiteSpace(RegisterModel.FirstName) || 
-                string.IsNullOrWhiteSpace(RegisterModel.LastName) || 
-                string.IsNullOrWhiteSpace(RegisterModel.Email) || 
-                string.IsNullOrWhiteSpace(RegisterModel.Password))
+            try
             {
-                SetErrorText("Заполните все поля!", true);
-                return;
+                RegisterModel.ErrorText = string.Empty;
+
+                bool firstNameEmpty = string.IsNullOrWhiteSpace(RegisterModel.FirstName);
+                bool lastNameEmpty = string.IsNullOrWhiteSpace(RegisterModel.LastName);
+                bool emailEmpty = string.IsNullOrWhiteSpace(RegisterModel.Email);
+                bool passwordEmpty = string.IsNullOrWhiteSpace(RegisterModel.Password);
+
+                if (firstNameEmpty || lastNameEmpty || emailEmpty || passwordEmpty)
+                {
+                    RegisterModel.ErrorText = (firstNameEmpty, lastNameEmpty, emailEmpty, passwordEmpty) switch
+                    {
+                        (false, true, true, true) => "Заполните поле имени!",
+                        (true, false, true, true) => "Заполните поле фамилии!",
+                        (true, true, false, true) => "Заполните поле почты!",
+                        (true, true, true, false) => "Заполните поле пароля!",
+                        _ => "Заполните все поля!"
+                    };
+                    return;
+                }
+
+                if (RegisterModel.Password != null && RegisterModel.Password.Length < 6)
+                {
+                    RegisterModel.ErrorText = "Пароль должен содержать минимум 6 символов";
+                    return;
+                }
+
+                var (result, error) = await AuthService.SignUp(
+                    RegisterModel.FirstName ?? "",
+                    RegisterModel.LastName ?? "",
+                    RegisterModel.Email ?? throw new ArgumentNullException(),
+                    RegisterModel.Password ?? throw new ArgumentNullException());
+
+                if (result != null) await GoToLogin();
+                else
+                {
+                    RegisterModel.ErrorText = error;
+                    return;
+                }
             }
-
-            if (RegisterModel.Password.Length < 6)
+            catch (Exception)
             {
-                SetErrorText("Пароль должен содержать минимум 6 символов", true);
-                return;
-            }
-
-            var (result, error) = await AuthService.SignUp(
-                RegisterModel.FirstName, 
-                RegisterModel.LastName, 
-                RegisterModel.Email, 
-                RegisterModel.Password);
-
-            if (result != null) await GoToLogin();
-            else
-            {
-                SetErrorText(error, true);
-                return;
+                RegisterModel.ErrorText = "Непредвиденная ошибка";
             }
         }
 

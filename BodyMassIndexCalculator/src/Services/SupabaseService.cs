@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Supabase;
-using System.IO;
 using System.Reflection;
 
 namespace BodyMassIndexCalculator.src.Services
